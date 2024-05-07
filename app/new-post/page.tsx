@@ -80,7 +80,7 @@ const NewPost = () => {
             author: author,
             imageUrl: imageUrl,
             postedOn: postedOn,
-            title: title,
+            name: title,
             Description: Description,
             email: email,
             mobile: mobile,
