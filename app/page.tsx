@@ -38,16 +38,13 @@ export default function Home() {
 				</CardHeader>
 				<CardBody className="pb-0 pt-2 px-4 flex-col items-start">
 					
-					<h4 className="font-bold text-large uppercase mb-3">{title}</h4>
+					<h4 className="font-bold text-large uppercase mb-3">{title}
+					<br/> <small className="text-default-400 text-xs">
+						By <strong>{author}</strong>
+					</small></h4>
 					<p className="text-tiny font-bold">{description}</p>
 				<Divider className="mt-3 mb-3"/>
-				<div className="flex items-center justify-between w-full">
-					<small className="text-default-500">
-						By: {author}
-					</small>
-					<span>
-						|
-					</span>
+				<div className="flex flex-col items-left justify-center text-left w-full">
 					<small className="text-default-500">
 						{new Date(date).toLocaleString()}
 					</small>
