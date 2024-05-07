@@ -60,6 +60,7 @@ export default function Home() {
 		setLoading(false)
 	}).catch((error) => {
 		console.error(error)
+		console.error(error.message)
 		toast.error(error.message)
 	}
 	)
