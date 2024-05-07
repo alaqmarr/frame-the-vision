@@ -6,15 +6,14 @@ import { Providers } from "./providers";
 import { Navbar } from "@/components/navbar";
 import { Link } from "@nextui-org/link";
 import clsx from "clsx";
+import { Divider } from "@nextui-org/divider";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
-	title: {
-		default: siteConfig.name,
-		template: `%s - ${siteConfig.name}`,
-	},
-	description: siteConfig.description,
+	title: 'Frame The Vision',
+	description: 'Ashara Ohbat competition brought to you by HSB Secunderabad.',
 	icons: {
-		icon: "/favicon.ico",
+		icon: "/hsb.jpg",
 	},
 };
 
@@ -41,19 +40,21 @@ export default function RootLayout({
 			>
 				<Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
 					<div className="relative flex flex-col h-screen">
+						<Toaster/>
 						<Navbar />
 						<main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
 							{children}
 						</main>
-						<footer className="w-full flex items-center justify-center py-3">
+						<Divider className="mt-6"/>
+						<footer className="w-full flex flex-col items-center justify-center py-3">
 							<Link
 								isExternal
-								className="flex items-center gap-1 text-current"
-								href="https://nextui-docs-v2.vercel.app?utm_source=next-app-template"
-								title="nextui.org homepage"
+								className="flex flex-col items-center gap-1 text-current"
+								href="https://wa.me/919346763253"
+								title="The Web Sensei"
 							>
-								<span className="text-default-600">Powered by</span>
-								<p className="text-primary">NextUI</p>
+								<span className="text-default-600">Developed by HSB Secunderabad.</span>
+								<p className="text-primary"> Powered by The Web Sensei</p>
 							</Link>
 						</footer>
 					</div>
