@@ -82,8 +82,8 @@ export const Navbar = () => {
 			<NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
 				<ThemeSwitch />
 				<Link href="/new-post">
-					<Button color='primary'>
-					<PlusCircleIcon/> Vision
+					<Button color='primary' className="w-fit">
+					<PlusCircleIcon className="w-[20px]"/>
 					</Button>
 					</Link>
 			</NavbarContent>
