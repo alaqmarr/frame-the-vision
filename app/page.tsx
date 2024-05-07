@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Spinner } from "@nextui-org/spinner";
 import { Divider } from "@nextui-org/divider";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 export default function Home() {
 	const [postsArea, setPostsArea] = useState<ReactElement<any>[]>()
@@ -26,7 +27,8 @@ export default function Home() {
 			const author = allPosts[postId].author;
 
 			posts.push(
-				<Card className="py-4 w-[400px]" key={postId}>
+				<Link href={`/vision/${postId}`} key={postId}>
+					<Card className="py-4 w-[400px]" key={postId} isHoverable>
 				<CardHeader className="overflow-visible py-2 flex flex-col items-center justify-center">
 				<Image
 						alt={postId}
@@ -42,7 +44,7 @@ export default function Home() {
 					<br/> <small className="text-default-400 text-xs">
 						By <strong>{author}</strong>
 					</small></h4>
-					<p className="text-tiny font-bold">{description}</p>
+					<p className="text-tiny font-bold ">{description.length > 60 ? (description.substring(0, 60)+'... READ MORE') : (description)}</p>
 				<Divider className="mt-3 mb-3"/>
 				<div className="flex flex-col items-left justify-center text-left w-full">
 					<small className="text-default-500">
@@ -51,6 +53,7 @@ export default function Home() {
 				</div>
 				</CardBody>
 			</Card>
+			</Link>
 			)
 		}
 		setPostsArea(posts)
