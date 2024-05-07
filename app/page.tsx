@@ -9,10 +9,16 @@ import { Spinner } from "@nextui-org/spinner";
 import { Divider } from "@nextui-org/divider";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+	const router = useRouter()
 	const [postsArea, setPostsArea] = useState<ReactElement<any>[]>()
 	const [loading, setLoading] = useState(true)
+
+	function changePath(postId: string) {
+		router.push(`/vision/${postId}`)
+	}
 	const database = getDatabase(app)
 	const postsNode = ref(database, 'frame-the-vision/posts')
 	get(postsNode).then((snap) => {
@@ -27,8 +33,8 @@ export default function Home() {
 			const author = allPosts[postId].author;
 
 			posts.push(
-				<Link href={`/vision/${postId}`} key={postId} className="w-[400px]">
-					<Card className="py-4 w-[400px]" isHoverable>
+					<Card className="py-4 w-[400px]" isHoverable key={postId}>
+						<Link href={`/vision/${postId}`}>
 				<CardHeader className="overflow-visible py-2 flex flex-col items-center justify-center">
 				<Image
 						alt={postId}
@@ -52,8 +58,8 @@ export default function Home() {
 					</small>
 				</div>
 				</CardBody>
+				</Link>
 			</Card>
-			</Link>
 			)
 		}
 		setPostsArea(posts)
