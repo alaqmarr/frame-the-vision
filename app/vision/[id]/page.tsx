@@ -62,7 +62,7 @@ const Vision = () => {
                 </div>
 
                 <div>
-                    <Link href={`https://wa.me/?text=$View%20this%20post%20on%20Frame%20the%20Vision%20portal%20by%20HSB%20Secunderabad.%0A%0A*https://ftv.hsbsecunderabad.com/vision/${id}*`}>
+                    <Link href={`https://wa.me/?text=View%20this%20post%20on%20Frame%20the%20Vision%20portal%20by%20HSB%20Secunderabad.%0A%0A*https://ftv.hsbsecunderabad.com/vision/${id}*`}>
                     <Button color='success' className='uppercase'><ShareIcon/>Share</Button>
                     </Link>
                 </div>
