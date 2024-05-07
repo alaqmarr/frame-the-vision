@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 	title: 'Frame The Vision',
 	description: 'Ashara Ohbat competition brought to you by HSB Secunderabad.',
 	icons: {
-		icon: "/hsb.jpg",
+		icon: "/favicon.ico",
 	},
 };
 
@@ -42,7 +42,7 @@ export default function RootLayout({
 					<div className="relative flex flex-col h-screen">
 						<Toaster/>
 						<Navbar />
-						<main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
+						<main className="container mx-auto max-w-7xl mt-6 px-6 flex-grow">
 							{children}
 						</main>
 						<Divider className="mt-6"/>

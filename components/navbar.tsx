@@ -28,6 +28,7 @@ import {
 } from "@/components/icons";
 import Image from "next/image";
 import logo from "@/app/hsb-removebg-preview.png";
+import { PlusCircleIcon } from "lucide-react";
 
 
 export const Navbar = () => {
@@ -80,7 +81,11 @@ export const Navbar = () => {
 
 			<NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
 				<ThemeSwitch />
-				<NavbarMenuToggle />
+				<Link href="/new-post">
+					<Button color='primary'>
+					<PlusCircleIcon/> Vision
+					</Button>
+					</Link>
 			</NavbarContent>
 
 			<NavbarMenu>

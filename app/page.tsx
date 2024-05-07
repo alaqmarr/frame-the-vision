@@ -7,6 +7,7 @@ import { ReactElement, useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Spinner } from "@nextui-org/spinner";
 import { Divider } from "@nextui-org/divider";
+import toast from "react-hot-toast";
 
 export default function Home() {
 	const [postsArea, setPostsArea] = useState<ReactElement<any>[]>()
@@ -57,7 +58,11 @@ export default function Home() {
 		}
 		setPostsArea(posts)
 		setLoading(false)
-	})
+	}).catch((error) => {
+		console.error(error)
+		toast.error(error.message)
+	}
+	)
 	if(loading){
 		return(
 			<Card className="w-full">

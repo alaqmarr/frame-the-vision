@@ -13,7 +13,7 @@ import { Textarea } from "@nextui-org/input";
 import { Input } from "@nextui-org/input";
 import { getStorage, ref as sRef, uploadBytes, getDownloadURL } from "firebase/storage";
 import { app } from "@/lib/firebase";
-import { CheckCheckIcon, TicketIcon } from "lucide-react";
+import { CheckCheckIcon, HomeIcon, Link2, TicketIcon, WholeWordIcon } from "lucide-react";
 import { Progress } from "@nextui-org/progress";
 import { getDatabase, push, ref, set } from "firebase/database";
 import { Code } from "@nextui-org/code";
@@ -48,6 +48,7 @@ const NewPost = () => {
     const [error, setError] = useState(false);
     const [uploading, setUploading] = useState(false);
     const [shareableUrl, setSharebaleUrl] = useState('');
+    const [submitting, setSubmitting] = useState(false);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -64,7 +65,7 @@ const NewPost = () => {
 
     // 2. Define a submit handler.
     function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
+        setSubmitting(true);
         const author = values.username;
         const imageUrl = values.image;
         const postedOn = values.postedOn;
@@ -95,6 +96,7 @@ const NewPost = () => {
             setSharebaleUrl(shareableURL);
         }).finally(() => {
             setPosted(true);
+            setSubmitting(false);
         }).catch((error) => {
             setError(true);
             toast.error(error.message)
@@ -124,7 +126,10 @@ const NewPost = () => {
 
     return (
         <>
-            <Card>
+        <Link href="/" className="flex items-center gap-2 text-primary">
+        <Button color="default" variant="flat" className="w-full mb-3 max-w-[400px]" href="/"><HomeIcon/>return to Homepage</Button>
+        </Link>
+            <Card className="max-w-[400px]">
                 <CardHeader>
                     <h4 className="font-bold text-large uppercase">POST MY VISION</h4>
                 </CardHeader>
@@ -241,6 +246,7 @@ const NewPost = () => {
                                     id="image-upload"
                                     onInput={handleImageUpload}
                                     required
+                                    disabled={uploading}
                                 />
                             </div>
 
@@ -278,6 +284,10 @@ const NewPost = () => {
                             />
                             {
                                 imageReady ? (
+                                    submitting ? (
+                                        <Button variant="flat" color="success" className="w-full" isDisabled isLoading>posting...</Button>
+                                    )
+                                    :
                                     posted ? (
                                         <Button color="success" variant="flat" className="w-full" isDisabled><CheckCheckIcon className="mr-1" />Posted</Button>
                                     )
@@ -295,14 +305,15 @@ const NewPost = () => {
                 {
                     posted && (
                         <CardFooter className="flex flex-col items-center justify-center w-full">
-                            <Code color="success">
+                            <Code color="success" className="flex flex-col items-center justify-center">
                                 <Link href={shareableUrl} isExternal>
-                                <small>{shareableUrl}</small>
+                                <Link2 className="mr-1"/> View Post
                                 </Link>
                             </Code>
                         </CardFooter>
                     )
                 }
+
             </Card>
         </>
     );
