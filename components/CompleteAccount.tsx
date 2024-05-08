@@ -25,7 +25,7 @@ import { Label } from "@/components/ui/label"
 import { signIn } from "@/lib/auth"
 import toast, { LoaderIcon } from "react-hot-toast"
 import { useState } from "react"
-import { getDatabase, ref, set } from "firebase/database"
+import { get, getDatabase, ref, set } from "firebase/database"
 import { app } from "@/lib/firebase"
 import { useRouter } from "next/navigation"
 
@@ -60,12 +60,34 @@ const CompleteAccount = ({ userId }: { userId: string }) => {
         }
 
         const userDataNode = ref(db, `frame-the-vision/users/${userId}`)
-        set(userDataNode, data).then(() => {
-            toast.success("Profile Updated!")
-        }).finally(() => {
-            window.location.reload()
-        }).catch((error: any) => {
-            toast.error(error.message)
+        const users = ref(db, `frame-the-vision/users`)
+        get(users).then((flick) => {
+            const usersData = flick.val()
+            var flag = false
+            for (const individual in usersData) {
+                if (usersData[individual].its === values.its) {
+                    toast.error("ITS Number already exists")
+                    setFormDisabled(false)
+                    flag = true
+                    return
+                } else if (usersData[individual].mobile === values.mobile) {
+                    toast.error("Mobile Number already exists")
+                    setFormDisabled(false)
+                    flag = true
+                    return
+                }
+
+            }
+
+            if (!flag) {
+                set(userDataNode, data).then(() => {
+                    toast.success("Profile Updated!")
+                }).finally(() => {
+                    window.location.reload()
+                }).catch((error: any) => {
+                    toast.error(error.message)
+                })
+            }
         })
 
     }
@@ -85,7 +107,7 @@ const CompleteAccount = ({ userId }: { userId: string }) => {
                                     <FormItem>
                                         <FormLabel>Full Name</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="HSB Secunderabad" {...field} />
+                                            <Input placeholder="HSB Secunderabad" {...field} required />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -98,7 +120,7 @@ const CompleteAccount = ({ userId }: { userId: string }) => {
                                     <FormItem>
                                         <FormLabel>WhatsApp Number [Including Country Code]</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="+919618443558" {...field} />
+                                            <Input type="tel" placeholder="+919618443558" {...field} required />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -112,7 +134,7 @@ const CompleteAccount = ({ userId }: { userId: string }) => {
                                     <FormItem>
                                         <FormLabel>ITS Number</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="01010101" {...field} />
+                                            <Input placeholder="01010101" {...field} minLength={8} maxLength={8} required />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>

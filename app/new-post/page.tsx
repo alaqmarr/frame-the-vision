@@ -127,8 +127,6 @@ const NewPost = () => {
             Description: Description,
             user: userID,
         }
-
-        //generate 16 digit alphanumeric id
         const id = Math.random().toString(36).slice(2);
         const postsRef = ref(database, `frame-the-vision/posts/${id}`);
         const userPostRef = ref(database, `frame-the-vision/users/${userID}/posts/${id}`);
