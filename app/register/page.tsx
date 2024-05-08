@@ -38,13 +38,17 @@ const formSchema = z.object({
 
 const Register = () => {
     const [loading, setLoading] = useState(true)
+    const [signUpEligible, setSignUpEligible] = useState(false)
     const user = useUser()
     const router = useRouter()
     useEffect(() => {
         if (user) {
             router.push('/')
-        }else{
-            setLoading(false)
+        } else {
+            setTimeout(() => {
+                setLoading(false)
+            }, 4000)
+            setSignUpEligible(true)
         }
     }, [user])
 
@@ -72,7 +76,7 @@ const Register = () => {
         })
 
     }
-    if(loading){
+    if (loading) {
         return (
             <div className="flex flex-col items-center justify-center h-[70vh]">
                 <Card>
@@ -81,6 +85,61 @@ const Register = () => {
                     </CardBody>
                 </Card>
             </div>
+        )
+    }
+
+    if (signUpEligible) {
+        return (
+            <section className="flex flex-col items-center justify-center w-full">
+                <Card className="max-w-[380px] min-w-[300px]">
+                    <CardHeader>
+                        <Label className="text-2xl font-bold">Create Account</Label>
+                    </CardHeader>
+                    <CardBody className="grid gap-4">
+                        <Form {...form}>
+                            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                                <FormField
+                                    control={form.control}
+                                    name="email"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Email Address</FormLabel>
+                                            <FormControl>
+                                                <Input placeholder="hsbsecunderabad@gmail.com" {...field} />
+                                            </FormControl>
+                                            <FormDescription>
+                                                This will be your default Email Address!
+                                            </FormDescription>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <FormField
+                                    control={form.control}
+                                    name="password"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Password</FormLabel>
+                                            <FormControl>
+                                                <Input type="password" placeholder="********" {...field} />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                {
+                                    formDisabled ? <Button variant={'default'} className="w-full" disabled={true}><LoaderIcon className="mr-3" />processing</Button>
+                                        :
+                                        <Button type="submit" variant={'default'} className="w-full">Create Account</Button>
+                                }
+                            </form>
+                        </Form>
+                    </CardBody>
+                    <CardFooter>
+                    </CardFooter>
+                </Card>
+            </section>
         )
     }
 }
