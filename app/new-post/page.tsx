@@ -11,13 +11,13 @@ import { Textarea } from "@nextui-org/input";
 import { Input } from "@nextui-org/input";
 import { getStorage, ref as sRef, uploadBytes, getDownloadURL } from "firebase/storage";
 import { app } from "@/lib/firebase";
-import { CheckCheckIcon, HomeIcon, Link2, TicketIcon, TicketXIcon, UserXIcon, WholeWordIcon } from "lucide-react";
+import { CheckCheckIcon, HomeIcon, Link2, LogOutIcon, TicketIcon, TicketXIcon, UserXIcon, WholeWordIcon } from "lucide-react";
 import { Progress } from "@nextui-org/progress";
 import { getDatabase, push, ref, set, get } from "firebase/database";
 import { Code } from "@nextui-org/code";
 import { Link } from "@nextui-org/link";
 import toast from "react-hot-toast";
-import { useUser } from "@/lib/auth";
+import { signOut, useUser } from "@/lib/auth";
 import UserLogin from "@/components/LoginComponent";
 import { Spinner } from "@nextui-org/spinner";
 import CompleteAccount from "@/components/CompleteAccount";
@@ -46,6 +46,19 @@ const NewPost = () => {
     const [hasCredits, setHasCredits] = useState(false);
     const [accountIncomplete, setAccountIncomplete] = useState(false);
     const [userName, setUserName] = useState('');
+
+    async function signUserOut() {
+        await signOut().then(() => {
+            setLoggedIn(false);
+            setHasCredits(false);
+            setActiveStatus(false);
+            setAccountIncomplete(false);
+            setUserName('');
+            setUserID('');
+
+        })
+
+    }
 
     useEffect(() => {
         async function checkUser() {
@@ -184,25 +197,28 @@ const NewPost = () => {
         if (!accountIncomplete && !activeStatus) {
             return (
                 <div className="flex flex-col items-center justify-center w-full h-[70vh]">
-                <Card className="flex flex-col items-center justify-center">
-                    <CardHeader className="flex items-center justify-center w-full">
-                    <UserXIcon className="text-4xl font-bold" />
-                    </CardHeader>
-                    <CardBody className="flex flex-col items-center justify-center gap-y-6">
-                        <Divider />
-                        <Code color="danger" className="flex items-center justify-center">
-                            <h1 className="text-lg font-bold">[ERROR_0020]</h1>
-                        </Code>
-                        <h1 className="text-lg font-bold">Account not active.</h1>
-                        <Divider />
-                        <Link href={`https://wa.me/7207004752?text=*[ERROR_0020]*%0A%0AI%20want%20to%20get%20my%20*FRAME%20THE%20VISION*%20account%20activated.%20%0A%0A*VISIONARY_ID*%20:%20_${userID}_`}>
-                            <Button variant="flat" color="success" className="w-full uppercase font-bold">
-                            Raise Activation Request
+                    <Card className="flex flex-col items-center justify-center">
+                        <CardHeader className="flex items-center justify-center w-full">
+                            <UserXIcon className="text-4xl font-bold" />
+                        </CardHeader>
+                        <CardBody className="flex flex-col items-center justify-center gap-y-3">
+                            <Divider />
+                            <Code color="danger" className="flex items-center justify-center">
+                                <h1 className="text-lg font-bold">[ERROR_0020]</h1>
+                            </Code>
+                            <h1 className="text-lg font-bold">Account not active.</h1>
+                            <Divider />
+                            <Link href={`https://wa.me/7207004752?text=*[ERROR_0020]*%0A%0AI%20want%20to%20get%20my%20*FRAME%20THE%20VISION*%20account%20activated.%20%0A%0A*VISIONARY_ID*%20:%20_${userID}_`}>
+                                <Button variant="flat" color="success" className="w-full uppercase font-bold">
+                                    Raise Activation Request
+                                </Button>
+                            </Link>
+                            <Button onClick={() => signUserOut()} variant="flat" color="danger" className="w-full uppercase font-bold">
+                                LOGOUT <LogOutIcon />
                             </Button>
-                        </Link>
-                    </CardBody>
-                </Card>
-            </div>
+                        </CardBody>
+                    </Card>
+                </div>
             )
         }
 
@@ -226,6 +242,9 @@ const NewPost = () => {
                                     Request Top-Up
                                 </Button>
                             </Link>
+                            <Button onClick={() => signUserOut()} variant="flat" color="danger" className="w-full uppercase font-bold">
+                                LOGOUT <LogOutIcon />
+                            </Button>
                         </CardBody>
                     </Card>
                 </div>
@@ -381,7 +400,9 @@ const NewPost = () => {
 
     if (!loggedIn) {
         return (
-            <UserLogin />
+            <section className="flex flex-col items-center justify-center h-[75vh]">
+                <UserLogin />
+            </section>
         )
     };
 }
