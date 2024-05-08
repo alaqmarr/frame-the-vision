@@ -194,7 +194,7 @@ const NewPost = () => {
 
         if (!accountIncomplete && !activeStatus) {
             return (
-                <div className="flex flex-col items-center justify-center w-full h-[70vh]">
+                <div className="flex flex-col items-center justify-center w-full h-[60vh]">
                     <Card className="flex flex-col items-center justify-center">
                         <CardHeader className="flex items-center justify-center w-full">
                             <UserXIcon className="text-4xl font-bold" />
@@ -223,7 +223,7 @@ const NewPost = () => {
 
         if (!accountIncomplete && activeStatus && !hasCredits) {
             return (
-                <div className="flex flex-col items-center justify-center w-full h-[70vh]">
+                <div className="flex flex-col items-center justify-center w-full h-[60vh]">
                     <Card className="flex flex-col items-center justify-center">
                         <CardHeader className="flex items-center justify-center w-full">
                             <TicketXIcon className="text-4xl font-bold" />
