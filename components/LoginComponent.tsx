@@ -50,7 +50,7 @@ const UserLogin = () => {
     }
     return (
         <section className="flex flex-col items-center justify-center w-full">
-            <Card className="max-w-[450px] min-w-[350px] shadow-lg">
+            <Card className="max-w-[380px] min-w-[300px]">
             <CardHeader>
                 <Label className="text-2xl font-bold">Login</Label>
             </CardHeader>
