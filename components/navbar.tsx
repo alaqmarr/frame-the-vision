@@ -28,7 +28,7 @@ import {
 } from "@/components/icons";
 import Image from "next/image";
 import logo from "@/app/hsb-removebg-preview.png";
-import { PlusCircleIcon } from "lucide-react";
+import { PlusCircleIcon, Users } from "lucide-react";
 
 
 export const Navbar = () => {
@@ -38,23 +38,23 @@ export const Navbar = () => {
 			<NavbarContent className="basis-1/5 sm:basis-full" justify="start">
 				<NavbarBrand as="li" className="gap-3 max-w-fit">
 					<NextLink className="flex justify-start items-center gap-1" href="/">
-						<Image src={logo} width={50} height={50} alt="HSB Secunderabad"/>
-						<p className="font-bold text-inherit">Frame the Vision</p>
+						<Image src={logo} width={50} height={50} alt="HSB Secunderabad" />
+						<p className="font-bold text-inherit text-sm">Frame The Vision</p>
 					</NextLink>
 				</NavbarBrand>
 				<ul className="hidden lg:flex gap-4 justify-start ml-2">
-				<NavbarItem>
-							<NextLink
-								className={clsx(
-									linkStyles({ color: "foreground" }),
-									"data-[active=true]:text-primary data-[active=true]:font-medium"
-								)}
-								color="foreground"
-								href='/new-post'
-							>
-								NEW POST
-							</NextLink>
-						</NavbarItem>
+					<NavbarItem>
+						<NextLink
+							className={clsx(
+								linkStyles({ color: "foreground" }),
+								"data-[active=true]:text-primary data-[active=true]:font-medium"
+							)}
+							color="foreground"
+							href='/new-post'
+						>
+							NEW POST
+						</NextLink>
+					</NavbarItem>
 				</ul>
 			</NavbarContent>
 
@@ -67,7 +67,7 @@ export const Navbar = () => {
 				</NavbarItem>
 				<NavbarItem className="hidden md:flex">
 					<Button
-            isExternal
+						isExternal
 						as={Link}
 						className="text-sm font-normal text-default-600 bg-default-100"
 						href='https://wa.me/919346763253'
@@ -82,26 +82,31 @@ export const Navbar = () => {
 			<NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
 				<ThemeSwitch />
 				<Link href="/new-post">
-					<Button color='primary' className="w-fit">
-					<PlusCircleIcon className="w-[20px]"/>
+					<Button isIconOnly color='primary' aria-label="New Post">
+						<PlusCircleIcon />
 					</Button>
-					</Link>
+				</Link>
+				<Link href="/team">
+				<Button isIconOnly color="warning" aria-label="Team">
+        <Users />
+      </Button> 
+				</Link>
 			</NavbarContent>
 
 			<NavbarMenu>
 				<div className="mx-4 mt-2 flex flex-col gap-2">
-				<NavbarItem>
-							<NextLink
-								className={clsx(
-									linkStyles({ color: "foreground" }),
-									"data-[active=true]:text-primary data-[active=true]:font-medium"
-								)}
-								color="foreground"
-								href='/new-post'
-							>
-								NEW POST
-							</NextLink>
-						</NavbarItem>
+					<NavbarItem>
+						<NextLink
+							className={clsx(
+								linkStyles({ color: "foreground" }),
+								"data-[active=true]:text-primary data-[active=true]:font-medium"
+							)}
+							color="foreground"
+							href='/new-post'
+						>
+							NEW POST
+						</NextLink>
+					</NavbarItem>
 				</div>
 			</NavbarMenu>
 		</NextUINavbar>

@@ -7,7 +7,7 @@ import { Divider } from '@nextui-org/divider'
 import { Image } from '@nextui-org/image'
 import { Spinner } from '@nextui-org/spinner'
 import { getDatabase, ref, get } from 'firebase/database'
-import { ArrowLeft, MessageCircleWarningIcon, ShareIcon } from 'lucide-react'
+import { ArrowLeft, MessageCircleWarningIcon, ShareIcon, Users } from 'lucide-react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -55,10 +55,10 @@ const Vision = () => {
     return (
         <div className='flex flex-col items-center justify-center gap-y-3'>
             <Link className='w-full' href={`/#${id}`}>
-            <Button color='default' variant={'flat'} className='font-bold uppercase'>
-            <ArrowLeft/>Go back
-        </Button>
-        </Link>
+                <Button color='default' variant={'flat'} className='font-bold uppercase'>
+                    <ArrowLeft />Go back
+                </Button>
+            </Link>
             <Divider className='mt-3 mb-3' />
             <Image src={image} alt={title} width={1080} height={180} className="object-cover rounded-xl" />
             <Divider className='mt-6 mb-3' />
@@ -94,11 +94,19 @@ const Vision = () => {
                 </CardBody>
             </Card>
             <Divider />
-            <Link className='w-full' href={`https://wa.me/917207004751?text=I%20want%20to%20report%20this%20vision%20because%20%0A%0A*VISION_ID*%20${id}`}>
-            <Button color='danger' variant={'flat'} className='w-full font-bold uppercase'>
-            Report this Vision <MessageCircleWarningIcon/>
-        </Button>
-        </Link>
+            <div className='flex flex-col items-center justify-center gap-y-6 w-full'>
+            <Link href={`/team`}>
+                <Button color='warning' variant={'flat'} className='font-bold uppercase'>
+                    Frame The Vision Team <Users />
+                </Button>
+            </Link>
+            <Link href={`https://wa.me/917207004751?text=I%20want%20to%20report%20this%20vision%20because%20%0A%0A*VISION_ID*%20${id}`}>
+                <Button color='danger' variant={'flat'} className='font-bold uppercase'>
+                    Report this Vision <MessageCircleWarningIcon />
+                </Button>
+            </Link>
+            </div>
+
         </div>
     )
 }
