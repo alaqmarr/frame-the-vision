@@ -208,7 +208,7 @@ const NewPost = () => {
                             </Code>
                             <h1 className="text-lg font-bold">Account not active.</h1>
                             <Divider />
-                            <Link href={`https://wa.me/7207004752?text=*[ERROR_0020]*%0A%0AI%20want%20to%20get%20my%20*FRAME%20THE%20VISION*%20account%20activated.%20%0A%0A*VISIONARY_ID*%20:%20_${userID}_`}>
+                            <Link href={`https://wa.me/7207004751?text=*[ERROR_0020]*%0A%0AI%20want%20to%20get%20my%20*FRAME%20THE%20VISION*%20account%20activated.%20%0A%0A*VISIONARY_ID*%20:%20_${userID}_`}>
                                 <Button variant="flat" color="success" className="w-full uppercase font-bold">
                                     Raise Activation Request
                                 </Button>
@@ -237,7 +237,7 @@ const NewPost = () => {
                             </Code>
                             <h1 className="text-lg font-bold">No credits available for posting a vision. </h1>
                             <Divider />
-                            <Link className="w-full" href={`https://wa.me/7207004752?text=*[ERROR_0021]_TOP-UP_REQUEST*%0A%0AI%20want%20to%20get%20my%20*FRAME%20THE%20VISION*%20account%20topped-up.%20%0A%0A*VISIONARY_ID*%20:%20_${userID}_`}>
+                            <Link className="w-full" href={`https://wa.me/7207004751?text=*[ERROR_0021]_TOP-UP_REQUEST*%0A%0AI%20want%20to%20get%20my%20*FRAME%20THE%20VISION*%20account%20topped-up.%20%0A%0A*VISIONARY_ID*%20:%20_${userID}_`}>
                                 <Button variant="flat" color="success" className="w-full uppercase font-bold">
                                     Request Top-Up
                                 </Button>
