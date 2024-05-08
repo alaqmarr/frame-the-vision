@@ -37,7 +37,7 @@ export default function Home() {
                 const author = allPosts[postId].author;
     
                 posts.push(
-                    <Card className="py-4 w-[400px]" isHoverable key={postId}>
+                    <Card className="py-4 w-[400px]" isHoverable key={postId} id={postId}>
                         <Link href={`/vision/${postId}`}>
                             <CardHeader className="overflow-visible py-2 flex flex-col items-center justify-center">
                                 <Image
