@@ -61,6 +61,7 @@ const NewPost = () => {
     }
 
     useEffect(() => {
+        let isMounted = false;
         async function checkUser() {
             if (user) {
                 setUserID(user.uid);
@@ -70,6 +71,7 @@ const NewPost = () => {
                 await get(user_data_node).then((snap) => {
                     if (!snap.exists()) {
                         setAccountIncomplete(true);
+                        isMounted = true;
                         return;
                     } else {
                         const data = snap.val();
@@ -82,6 +84,7 @@ const NewPost = () => {
                             if (credits > 0) {
                                 setHasCredits(true);
                             }
+                            isMounted = true;
                         }
                     }
                 }).catch((error) => {
@@ -93,9 +96,10 @@ const NewPost = () => {
 
         checkUser().then(() => {
             setTimeout(() => {
-                setLoading(false)
-            }, 4000)
+                setLoading(false);
+            }, 6000)
         })
+
 
     }, [user])
 
@@ -176,10 +180,14 @@ const NewPost = () => {
     if (loading) {
         return (
             <div className="flex flex-col items-center justify-center h-[70vh]">
-                <Card>
+                <Card className="flex flex-col items-center justify-center">
                     <CardBody className="flex gap-y-4 w-full text-center">
                         <Spinner label="configuring..." color="primary" labelColor="primary" className="mt-3 mb-3" />
                     </CardBody>
+                    <Divider />
+                    <CardFooter className="max-w-[150px] flex flex-col items-center justify-center text-center">
+                        may take few seconds based on your network speed
+                    </CardFooter>
                 </Card>
             </div>
         )
@@ -226,23 +234,25 @@ const NewPost = () => {
                 <div className="flex flex-col items-center justify-center w-full h-[60vh]">
                     <Card className="flex flex-col items-center justify-center">
                         <CardHeader className="flex items-center justify-center w-full">
-                            <TicketXIcon className="text-4xl font-bold" />
-                        </CardHeader>
-                        <CardBody className="flex flex-col items-center justify-center gap-y-6">
-                            <Divider />
-                            <Code color="secondary" className="flex items-center justify-center">
-                                <h1 className="text-lg font-bold">[ERROR_0021]</h1>
+                            <Code color="success" className="flex items-center justify-center">
+                                <h1 className="text-lg font-bold">CONGRATULATIONS! 🎉</h1>
                             </Code>
-                            <h1 className="text-lg font-bold">No credits available for posting a vision. </h1>
+                        </CardHeader>
+                        <CardBody className="flex flex-col items-center justify-center gap-y-6 text-center">
                             <Divider />
-                            <Link className="w-full" href={`https://wa.me/7207004751?text=*[ERROR_0021]_TOP-UP_REQUEST*%0A%0AI%20want%20to%20get%20my%20*FRAME%20THE%20VISION*%20account%20topped-up.%20%0A%0A*VISIONARY_ID*%20:%20_${userID}_`}>
-                                <Button variant="flat" color="success" className="w-full uppercase font-bold">
-                                    Request Top-Up
+                            <h1 className="text-lg font-bold">You have already posted your Vision for this competition!</h1>
+                            <h1 className="text-red-500 text-lg font-bold">You can only post once.</h1>
+                            <Divider />
+                            <div className="flex flex-col items-center justify-center gap-y-3 w-full">
+                                <Link className="w-full" href={`https://wa.me/7207004751?text=*Need%20help%20regarding*0A%0A*VISIONARY_ID*%20:%20_${userID}_`}>
+                                    <Button variant="flat" color="warning" className="w-full uppercase font-bold">
+                                        Need Help?
+                                    </Button>
+                                </Link>
+                                <Button onClick={() => signUserOut()} variant="flat" color="danger" className="w-full uppercase font-bold">
+                                    LOGOUT <LogOutIcon />
                                 </Button>
-                            </Link>
-                            <Button onClick={() => signUserOut()} variant="flat" color="danger" className="w-full uppercase font-bold">
-                                LOGOUT <LogOutIcon />
-                            </Button>
+                            </div>
                         </CardBody>
                     </Card>
                 </div>
