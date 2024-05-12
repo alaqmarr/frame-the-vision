@@ -48,10 +48,6 @@ const Guide = () => {
                         More content to come.
                     </p>
                 </div>
-
-
-
-
             </div>
         </section>
     )
