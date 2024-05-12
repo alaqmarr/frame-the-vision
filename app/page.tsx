@@ -110,7 +110,6 @@ export default function Home() {
         setTimeRemaining({hours, minutes, seconds});
     }
 
-    // Call calculateTimeRemaining initially and then every second
     useEffect(() => {
         calculateTimeRemaining();
         const interval = setInterval(() => {
@@ -193,7 +192,7 @@ export default function Home() {
                         <CardBody className="flex gap-y-4 w-full text-center">
                             <h2 className="text-center text-xl font-bold text-primary-500">Total posts: {totalPosts}</h2>
                             <Divider/>
-                            <p>You've reached the end, No more posts available.</p>
+                            <p>You&apos;ve reached the end, No more posts available.</p>
                         </CardBody>
                     </Card>
                 )
