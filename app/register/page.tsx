@@ -96,7 +96,7 @@ const Register = () => {
                     <CardHeader>
                         <Label className="text-2xl font-bold">Create Account</Label>
                     </CardHeader>
-                    <Divider/>
+                    <Divider />
                     <CardBody className="grid gap-4">
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
