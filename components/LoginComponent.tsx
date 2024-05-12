@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@nextui-org/button"
 import {
     Form,
     FormControl,
@@ -25,6 +25,8 @@ import { Label } from "@/components/ui/label"
 import { signIn } from "@/lib/auth"
 import toast, { LoaderIcon } from "react-hot-toast"
 import { useState } from "react"
+import Link from "next/link"
+import { Divider } from "@nextui-org/divider"
 
 const formSchema = z.object({
     email: z.string().email(),
@@ -54,6 +56,7 @@ const UserLogin = () => {
             <CardHeader>
                 <Label className="text-2xl font-bold">Login</Label>
             </CardHeader>
+            <Divider/>
             <CardBody className="grid gap-4">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -88,14 +91,19 @@ const UserLogin = () => {
                             )}
                         />
                         {
-                            formDisabled ? <Button variant={'default'} className="w-full" disabled={true}><LoaderIcon className="mr-3"/>authenticating</Button>
+                            formDisabled ? <Button color='default' className="w-full" disabled={true}><LoaderIcon className="mr-3"/>authenticating</Button>
                             :
-                            <Button type="submit" variant={'default'} className="w-full">Login</Button>
+                            <Button type="submit" color='primary' className="w-full">Login</Button>
                         }
                     </form>
                 </Form>
             </CardBody>
             <CardFooter>
+                <Link href={'/register'} className="w-full">
+                <Button color="primary" variant={'flat'} className="w-full">
+                    Not Enrolled? Enroll Now!
+                </Button>
+                </Link>
             </CardFooter>
         </Card>
         </section>

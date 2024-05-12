@@ -30,6 +30,7 @@ import { useRouter } from 'next/navigation'
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth'
 import { app } from '@/lib/firebase'
 import { Spinner } from '@nextui-org/spinner'
+import { Divider } from '@nextui-org/divider'
 
 const formSchema = z.object({
     email: z.string().email(),
@@ -95,6 +96,7 @@ const Register = () => {
                     <CardHeader>
                         <Label className="text-2xl font-bold">Create Account</Label>
                     </CardHeader>
+                    <Divider/>
                     <CardBody className="grid gap-4">
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
