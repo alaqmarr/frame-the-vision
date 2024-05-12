@@ -55,7 +55,7 @@ const CompleteAccount = ({ userId }: { userId: string }) => {
             name: values.name,
             mobile: values.mobile,
             its: values.its,
-            active: false,
+            active: true,
             credits: 0
         }
 
