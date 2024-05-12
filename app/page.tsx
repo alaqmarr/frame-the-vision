@@ -176,6 +176,7 @@ export default function Home() {
             <section className="flex items-center justify-around flex-wrap gap-y-3 mb-3">
                 {postsArea}
             </section>
+            <Divider className="mt-1 mb-5"/>
             {
                 totalPosts === 0 ? (
                     <Card className="w-full">
