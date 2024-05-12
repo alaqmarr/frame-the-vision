@@ -134,7 +134,7 @@ const NewPost = () => {
         const id = Math.random().toString(36).slice(2);
         const postsRef = ref(database, `frame-the-vision/posts/${id}`);
         const userPostRef = ref(database, `frame-the-vision/users/${userID}/posts/${id}`);
-        await set(userPostRef, data).then(() => {
+        await set(userPostRef, true).then(() => {
             set(postsRef, data).then(() => {
                 const shareableURL = `https://ftv.hsbsecunderabad.com/vision/${id}`;
                 setSharebaleUrl(shareableURL);
