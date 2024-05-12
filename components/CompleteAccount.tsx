@@ -56,7 +56,7 @@ const CompleteAccount = ({ userId }: { userId: string }) => {
             mobile: values.mobile,
             its: values.its,
             active: true,
-            credits: 0
+            credits: 1
         }
 
         const userDataNode = ref(db, `frame-the-vision/users/${userId}`)
