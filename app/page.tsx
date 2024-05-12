@@ -173,7 +173,7 @@ export default function Home() {
             </div>
 				)
 			}
-            <section className="flex items-center justify-around flex-wrap gap-y-3">
+            <section className="flex items-center justify-around flex-wrap gap-y-3 mb-3">
                 {postsArea}
             </section>
             {
