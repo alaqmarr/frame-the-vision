@@ -34,7 +34,8 @@ const formSchema = z.object({
     mobile: z.string(),
     its: z.string().min(8).max(8).regex(/^[0-9]+$/, "ITS number must be a number"),
     instagram: z.string().regex(/^[a-zA-Z0-9_]+$/, "Instagram username must be alphanumeric"),
-    age: z.string().min(1).max(3).regex(/^[0-9]+$/, "Age must be a number")
+    age: z.string().min(1).max(3).regex(/^[0-9]+$/, "Age must be a number"),
+    city: z.string().min(3)
 })
 
 const CompleteAccount = ({ userId }: { userId: string }) => {
@@ -47,7 +48,8 @@ const CompleteAccount = ({ userId }: { userId: string }) => {
             mobile: "",
             its: "",
             instagram: "",
-            age: ""
+            age: "",
+            city: ""
         },
     })
 
@@ -60,6 +62,7 @@ const CompleteAccount = ({ userId }: { userId: string }) => {
             muminITS: values.its,
             muminInstagramUsername: values.instagram,
             muminAge: values.age,
+            muminCity: values.city,
             active: true,
             credits: 1
         }
@@ -159,6 +162,20 @@ const CompleteAccount = ({ userId }: { userId: string }) => {
                                 )}
                             />
 
+<FormField
+                                control={form.control}
+                                name="city"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>City of Residency</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="Secunderabad" {...field} required />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
                             <FormField
                                 control={form.control}
                                 name="instagram"
@@ -166,7 +183,7 @@ const CompleteAccount = ({ userId }: { userId: string }) => {
                                     <FormItem>
                                         <FormLabel>Instagram Username</FormLabel>
                                         <FormControl>
-                                            <Input type="tel" placeholder="+919618443558" {...field} required />
+                                            <Input placeholder="hsb_secunderabad" {...field} required />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
