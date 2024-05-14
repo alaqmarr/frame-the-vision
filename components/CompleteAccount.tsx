@@ -32,8 +32,9 @@ import { useRouter } from "next/navigation"
 const formSchema = z.object({
     name: z.string().min(3),
     mobile: z.string(),
-    its: z.string().min(8).max(8)
-
+    its: z.string().min(8).max(8).regex(/^[0-9]+$/, "ITS number must be a number"),
+    instagram: z.string().regex(/^[a-zA-Z0-9_]+$/, "Instagram username must be alphanumeric"),
+    age: z.string().min(1).max(3).regex(/^[0-9]+$/, "Age must be a number")
 })
 
 const CompleteAccount = ({ userId }: { userId: string }) => {
@@ -44,7 +45,9 @@ const CompleteAccount = ({ userId }: { userId: string }) => {
         defaultValues: {
             name: "",
             mobile: "",
-            its: ""
+            its: "",
+            instagram: "",
+            age: ""
         },
     })
 
@@ -52,9 +55,11 @@ const CompleteAccount = ({ userId }: { userId: string }) => {
         setFormDisabled(true)
         const db = getDatabase(app)
         const data = {
-            name: values.name,
-            mobile: values.mobile,
-            its: values.its,
+            muminName: values.name,
+            muminMobile: values.mobile,
+            muminITS: values.its,
+            muminInstagramUsername: values.instagram,
+            muminAge: values.age,
             active: true,
             credits: 1
         }
@@ -134,7 +139,34 @@ const CompleteAccount = ({ userId }: { userId: string }) => {
                                     <FormItem>
                                         <FormLabel>ITS Number</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="01010101" {...field} minLength={8} maxLength={8} required />
+                                            <Input placeholder="01010101" inputMode="numeric" {...field} minLength={8} maxLength={8} required />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="age"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Your age</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="Age" inputMode="numeric" {...field} maxLength={3} required />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="instagram"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Instagram Username</FormLabel>
+                                        <FormControl>
+                                            <Input type="tel" placeholder="+919618443558" {...field} required />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>

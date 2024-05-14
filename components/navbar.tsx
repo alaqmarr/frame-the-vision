@@ -28,7 +28,7 @@ import {
 } from "@/components/icons";
 import Image from "next/image";
 import logo from "@/app/hsb-removebg-preview.png";
-import { PlusCircleIcon, Users } from "lucide-react";
+import { PlusCircleIcon, Users, UsersIcon } from "lucide-react";
 
 
 export const Navbar = () => {
@@ -52,7 +52,34 @@ export const Navbar = () => {
 							color="foreground"
 							href='/new-post'
 						>
-							NEW POST
+							<Button
+								className="text-sm font-normal text-default-600"
+								startContent={<PlusCircleIcon className="text-danger" />}
+								variant="flat"
+								color="primary"
+							>
+								New Post
+							</Button>
+						</NextLink>
+					</NavbarItem>
+
+					<NavbarItem>
+						<NextLink
+							className={clsx(
+								linkStyles({ color: "foreground" }),
+								"data-[active=true]:text-primary data-[active=true]:font-medium"
+							)}
+							color="foreground"
+							href='/team'
+						>
+							<Button
+								className="text-sm font-normal text-default-600"
+								startContent={<UsersIcon className="text-danger" />}
+								variant="flat"
+								color="warning"
+							>
+								Organisers
+							</Button>
 						</NextLink>
 					</NavbarItem>
 				</ul>
@@ -87,9 +114,9 @@ export const Navbar = () => {
 					</Button>
 				</Link>
 				<Link href="/team">
-				<Button isIconOnly color="warning" aria-label="Team">
-        <Users />
-      </Button> 
+					<Button isIconOnly color="warning" aria-label="Team">
+						<Users />
+					</Button>
 				</Link>
 			</NavbarContent>
 
