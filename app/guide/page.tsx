@@ -20,6 +20,64 @@ const Guide = () => {
 
             <div className='flex flex-col items-center justify-center w-full gap-y-6'>
                 <div>
+                    <h2 className='text-lg font-bold text-blue-400'>
+                        Join us to commemorate the martydom of Imam Husain(AS) through the lens of your camera and the power your words.<br />
+                        <strong className='text-blue-500'>HSB Secunderabad</strong> brings forward a unique competition for you to delve into the depths of creative writing and photography.
+                    </h2>
+                    <br />
+                    <p>
+                        <h3 className='text-md uppercase underline'>
+                            <strong>
+                                how it works:
+                            </strong>
+                        </h3>
+                        1.Choose Your Topic: Participants will be provided a selection of topics to choose from.
+                        <br />
+                        2.Capture the Moment: Bring your chosen topic to life by capturing a captivating photograph. It could be a symbolic image or a powerful scene, let your creativity shine.
+                        <br />
+                        3.Craft Your Perspective:  &apos;Har ilm no khulaso Husain ni zikar che&apos;
+                        <br />
+                        &nbsp;Dive into the significance of your topic by writing a reflective piece (min 100, max 200 words) explaning how your chosen topic resonates with the zikar of Imam Husain (AS).
+                        <br />
+                        4.Submit Your Entry:  Submit your photograph along with your written piece via this portal.
+                        <br />
+                        &nbsp;Our panel of judges will evaluate each entry on the basis of creativity, relevance, and literary prowess.
+                        <br />
+                        <br />
+                        <h3 className='text-md uppercase underline'>
+                            <strong>
+                                why participate?:
+                            </strong>
+                        </h3>
+                        1.<strong>Ashara Ohbat</strong>: To pay tribute and to connect deeply with the legacy of Imam Husain (AS) and the values he stood for through your creative expression.
+                        <br />
+                        2.<strong>Prizes and Recognition</strong>: Stand a chance to win an exciting reward and be recognised for your talent.
+                        <br />
+                        <br />
+                        <h3 className='text-md uppercase underline'>
+                            <strong>
+                                important dates:
+                            </strong>
+                        </h3>
+                        1.Competition begins: 7th June 2024
+                        <br />
+                        2.Submission deadline: 16th June 2024
+                        <br />
+                        3.Winners Announcement: 6th July 2024
+                        <br />
+                        <br />
+                        <h3 className='text-md uppercase underline'>
+                            <strong>
+                                how to enter:
+                            </strong>
+                        </h3>
+                        1.Visit our website (<Link href={'/'}>https://ftv.hsbsecunderabad.com</Link>) to learn more and to submit your enteries.
+                        2.Follow us on Instagram for more updates.
+
+                    </p>
+                </div>
+                <Divider />
+                <div>
                     <h1 className='font-bold text-xl underline'>
                         <strong>RULES & REGULATIONS</strong>
                     </h1>
@@ -132,13 +190,13 @@ const Guide = () => {
                         <Divider />
                         <CardFooter className='flex flex-col items-center justify-center'>
                             <Link href={'/'}>
-                            <Button
-                            color='primary'
-                            variant='flat'
-                            className='w-full'
-                            >
-                                Continue to Homepage
-                            </Button>
+                                <Button
+                                    color='primary'
+                                    variant='flat'
+                                    className='w-full'
+                                >
+                                    Continue to Homepage
+                                </Button>
                             </Link>
                         </CardFooter>
                     </Card>
