@@ -115,6 +115,12 @@ const NewPost = () => {
     }, []);
 
     useEffect(() => {
+        setUserID('');
+        setLoggedIn(false);
+        setAccountIncomplete(false);
+        setActiveStatus(false);
+        setHasCredits(false);
+        setUserName('');
         let isMounted = false;
         async function checkUser() {
             if (user) {
