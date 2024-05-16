@@ -11,7 +11,7 @@ import { Textarea } from "@nextui-org/input";
 import { Input } from "@nextui-org/input";
 import { getStorage, ref as sRef, uploadBytes, getDownloadURL } from "firebase/storage";
 import { app } from "@/lib/firebase";
-import { CheckCheckIcon, HomeIcon, Link2, LogOutIcon, TicketIcon, TicketXIcon, UserXIcon, WholeWordIcon } from "lucide-react";
+import { AlertCircle, CheckCheckIcon, HomeIcon, Link2, LogOutIcon, TicketIcon, TicketXIcon, UserXIcon, WholeWordIcon } from "lucide-react";
 import { Progress } from "@nextui-org/progress";
 import { getDatabase, push, ref, set, get } from "firebase/database";
 import { Code } from "@nextui-org/code";
@@ -21,6 +21,7 @@ import { signOut, useUser } from "@/lib/auth";
 import UserLogin from "@/components/LoginComponent";
 import { Spinner } from "@nextui-org/spinner";
 import CompleteAccount from "@/components/CompleteAccount";
+import { Separator } from "@/components/ui/separator";
 const formSchema = z.object({
     image: z.string().url({
         message: "Please provide a valid URL.",
@@ -31,6 +32,8 @@ const formSchema = z.object({
 });
 
 const NewPost = () => {
+    const end = new Date("2024-05-18T23:59:59").getTime();
+    const start = new Date("2024-05-17T09:00:00").getTime();
     const user = useUser();
     const [imageURL, setImageURL] = useState("");
     const [imageReady, setImageReady] = useState(false);
@@ -46,6 +49,9 @@ const NewPost = () => {
     const [hasCredits, setHasCredits] = useState(false);
     const [accountIncomplete, setAccountIncomplete] = useState(false);
     const [userName, setUserName] = useState('');
+    const [started, setStarted] = useState(false);
+    const [timeRemaining, setTimeRemaining] = useState({ hours: 0, minutes: 0, seconds: 0 });
+    const [pageReady, setPageReady] = useState(false);
 
     async function signUserOut() {
         await signOut().then(() => {
@@ -59,6 +65,54 @@ const NewPost = () => {
         })
 
     }
+
+
+    // Function to format time
+    function formatTime(time: any) {
+        return time.toString().padStart(2, '0');
+    }
+
+    // Function to calculate time remaining
+    function calculateTimeRemaining() {
+        const now = new Date().getTime();
+        const timeDifference = end - now;
+        const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+        const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+        setTimeRemaining({ hours, minutes, seconds });
+        setPageReady(true);
+    }
+
+    function calculateStartTiming() {
+        const now = new Date().getTime();
+        const timeDifference = start - now;
+        if (timeDifference <= 0) {
+            setStarted(true)
+        }
+        const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+        const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+        setTimeRemaining({ hours, minutes, seconds });
+        setPageReady(true);
+    }
+
+    useEffect(() => {
+        calculateStartTiming();
+        if (started) {
+            calculateTimeRemaining();
+            setPageReady(true);
+            const interval = setInterval(() => {
+                calculateTimeRemaining();
+            }, 1000);
+            return () => clearInterval(interval);
+        } else {
+
+            const interval = setInterval(() => {
+                calculateStartTiming();
+            }, 1000);
+            return () => clearInterval(interval);
+        }
+    }, []);
 
     useEffect(() => {
         let isMounted = false;
@@ -265,139 +319,180 @@ const NewPost = () => {
                     <Link href="/" className="flex items-center gap-2 text-primary">
                         <Button color="default" variant="flat" className="w-full mb-3 max-w-[400px]" href="/"><HomeIcon />return to Homepage</Button>
                     </Link>
-                    <Card className="max-w-[450px]">
-                        <CardHeader>
-                            <h4 className="font-bold text-large uppercase">POST MY VISION</h4>
-                        </CardHeader>
-                        <Divider />
-                        <CardBody>
-                            <Form {...form}>
-                                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                                    <FormField
-                                        control={form.control}
-                                        name="postedOn"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Posted On</FormLabel>
-                                                <FormControl>
-                                                    <Input placeholder={new Date().toISOString()} {...field} disabled={true} readOnly={true} isRequired />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <FormField
-                                        control={form.control}
-                                        name="title"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Post Title</FormLabel>
-                                                <FormControl>
-                                                    <Input placeholder='Initiative by HSB Secunderabad' {...field} isRequired />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-
-                                    <FormField
-                                        control={form.control}
-                                        name="Description"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Post Description</FormLabel>
-                                                <FormControl>
-                                                    <Textarea
-                                                        isRequired
-                                                        labelPlacement="outside"
-                                                        placeholder="Enter your description"
-                                                        {...field}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-
-                                    <div className="image-upload-form flex flex-col">
-                                        <label htmlFor="image-upload">Select image (Upload will begin immediately )</label>
-                                        <br />
-                                        <input
-                                            type="file"
-                                            accept="image/*"
-                                            name="image-upload"
-                                            id="image-upload"
-                                            onInput={handleImageUpload}
-                                            required
-                                            disabled={uploading}
-                                        />
-                                    </div>
-
-                                    {
-                                        uploading ? (
-                                            <Progress
-                                                size="sm"
-                                                isIndeterminate
-                                                aria-label="uploading..."
+                    {
+                        started ? (
+                            <Card className="max-w-[450px]">
+                                <CardHeader>
+                                    <h4 className="font-bold text-large uppercase">POST MY VISION</h4>
+                                </CardHeader>
+                                <Divider />
+                                <CardBody>
+                                    <Form {...form}>
+                                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                                            <FormField
+                                                control={form.control}
+                                                name="postedOn"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Posted On</FormLabel>
+                                                        <FormControl>
+                                                            <Input placeholder={new Date().toISOString()} {...field} disabled={true} readOnly={true} isRequired />
+                                                        </FormControl>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
                                             />
-                                        )
-                                            :
-                                            imageReady ? (
-                                                <p>Image Uploaded</p>
-                                            )
-                                                :
-                                                (
-                                                    ''
-                                                )
-                                    }
+                                            <FormField
+                                                control={form.control}
+                                                name="title"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Post Title</FormLabel>
+                                                        <FormControl>
+                                                            <Input placeholder='Initiative by HSB Secunderabad' {...field} isRequired />
+                                                        </FormControl>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
 
-                                    <FormField
-                                        control={form.control}
-                                        name="image"
-                                        defaultValue={imageURL}
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Image URL</FormLabel>
-                                                <FormControl>
-                                                    <Input placeholder={imageURL} {...field} disabled isRequired isReadOnly />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                    {
-                                        imageReady ? (
-                                            submitting ? (
-                                                <Button variant="flat" color="success" className="w-full" isDisabled isLoading>posting...</Button>
-                                            )
-                                                :
-                                                posted ? (
-                                                    <Button color="success" variant="flat" className="w-full" isDisabled><CheckCheckIcon className="mr-1" />Posted</Button>
+                                            <FormField
+                                                control={form.control}
+                                                name="Description"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Post Description</FormLabel>
+                                                        <FormControl>
+                                                            <Textarea
+                                                                isRequired
+                                                                labelPlacement="outside"
+                                                                placeholder="Enter your description"
+                                                                {...field}
+                                                            />
+                                                        </FormControl>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+
+                                            <div className="image-upload-form flex flex-col">
+                                                <label htmlFor="image-upload">Select image (Upload will begin immediately )</label>
+                                                <br />
+                                                <input
+                                                    type="file"
+                                                    accept="image/*"
+                                                    name="image-upload"
+                                                    id="image-upload"
+                                                    onInput={handleImageUpload}
+                                                    required
+                                                    disabled={uploading}
+                                                />
+                                            </div>
+
+                                            {
+                                                uploading ? (
+                                                    <Progress
+                                                        size="sm"
+                                                        isIndeterminate
+                                                        aria-label="uploading..."
+                                                    />
                                                 )
                                                     :
-                                                    <Button type="submit" className="w-full">Submit</Button>
-                                        )
-                                            :
-                                            (
-                                                <Button variant="flat" color="danger" className="w-full" isDisabled>Please upload an image</Button>
-                                            )
-                                    }
-                                </form>
-                            </Form>
-                        </CardBody>
-                        {
-                            posted && (
-                                <CardFooter className="flex flex-col items-center justify-center w-full">
-                                    <Code color="success" className="flex flex-col items-center justify-center">
-                                        <Link href={shareableUrl} isExternal>
-                                            <Link2 className="mr-1" /> View Post
-                                        </Link>
-                                    </Code>
-                                </CardFooter>
-                            )
-                        }
+                                                    imageReady ? (
+                                                        <p>Image Uploaded</p>
+                                                    )
+                                                        :
+                                                        (
+                                                            ''
+                                                        )
+                                            }
 
-                    </Card>
+                                            <FormField
+                                                control={form.control}
+                                                name="image"
+                                                defaultValue={imageURL}
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Image URL</FormLabel>
+                                                        <FormControl>
+                                                            <Input placeholder={imageURL} {...field} disabled isRequired isReadOnly />
+                                                        </FormControl>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                            {
+                                                imageReady ? (
+                                                    submitting ? (
+                                                        <Button variant="flat" color="success" className="w-full" isDisabled isLoading>posting...</Button>
+                                                    )
+                                                        :
+                                                        posted ? (
+                                                            <Button color="success" variant="flat" className="w-full" isDisabled><CheckCheckIcon className="mr-1" />Posted</Button>
+                                                        )
+                                                            :
+                                                            <Button type="submit" className="w-full">Submit</Button>
+                                                )
+                                                    :
+                                                    (
+                                                        <Button variant="flat" color="danger" className="w-full" isDisabled>Please upload an image</Button>
+                                                    )
+                                            }
+                                        </form>
+                                    </Form>
+                                </CardBody>
+                                {
+                                    posted && (
+                                        <CardFooter className="flex flex-col items-center justify-center w-full">
+                                            <Code color="success" className="flex flex-col items-center justify-center">
+                                                <Link href={shareableUrl} isExternal>
+                                                    <Link2 className="mr-1" /> View Post
+                                                </Link>
+                                            </Code>
+                                        </CardFooter>
+                                    )
+                                }
+
+                            </Card>
+                        )
+                            :
+                            pageReady && (
+                                <div className="mb-3">
+                                    {(new Date().getTime() < end) ? (
+                                        <Card className="w-full">
+                                            <CardHeader className="flex flex-col items-center justify-center">
+                                                <h3 className="flex items-center text-red-600 font-bold">
+                                                    <AlertCircle className="mr-3" /> {
+                                                        started ? `
+                                            Test Competition is live! 🎉
+                                            `
+                                                            :
+                                                            `
+                                            TEST COMPETITION WILL START SOON! 🕰️
+                                            `
+                                                    }
+                                                </h3>
+                                            </CardHeader>
+                                            <Divider />
+                                            <CardBody className="flex gap-y-3 w-full text-center">
+                                                <Separator className="w-full" />
+                                                <h4 className="text-center text-xl font-bold text-primary-500">{formatTime(timeRemaining.hours)} Hours {formatTime(timeRemaining.minutes)} Minutes {formatTime(timeRemaining.seconds)} Seconds</h4>
+                                                <Separator className="w-full" />
+                                            </CardBody>
+                                        </Card>
+                                    ) : (
+                                        <Card className="w-full">
+                                            <CardBody className="flex gap-y-4 w-full text-center">
+                                                <Separator className="w-full" />
+                                                <h3 className="text-center text-xl font-bold text-primary-500">🎉 The competition has ended! 🎉</h3>
+                                                <Separator className="w-full" />
+                                            </CardBody>
+                                        </Card>
+                                    )}
+                                </div>
+                            )
+
+                    }
                 </section>
             )
         }

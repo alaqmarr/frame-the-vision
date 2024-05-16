@@ -19,8 +19,10 @@ export default function Home() {
     const [totalPosts, setTotalPosts] = useState(0)
     const [error, setError] = useState(false)
     const [timeRemaining, setTimeRemaining] = useState({hours: 0, minutes: 0, seconds: 0});
-    const end = new Date("2024-05-12T23:59:59").getTime();
+    const end = new Date("2024-05-18T23:59:59").getTime();
+    const start = new Date("2024-05-17T09:00:00").getTime();
 	const [pageReady, setPageReady] = useState(false)
+    const [started, setStarted] = useState(false)
 
     useEffect(() => {
         let timerId = setTimeout(() => {
@@ -110,12 +112,33 @@ export default function Home() {
         setTimeRemaining({hours, minutes, seconds});
     }
 
+    function calculateStartTiming(){
+        const now = new Date().getTime();
+        const timeDifference = start - now;
+        if(timeDifference <= 0){
+            setStarted(true)
+        }
+        const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+        const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+        setTimeRemaining({hours, minutes, seconds});
+    }
+
     useEffect(() => {
-        calculateTimeRemaining();
-        const interval = setInterval(() => {
+        calculateStartTiming();
+        if(started){
             calculateTimeRemaining();
-        }, 1000);
-        return () => clearInterval(interval);
+            const interval = setInterval(() => {
+                calculateTimeRemaining();
+            }, 1000);
+            return () => clearInterval(interval);
+        }else{
+
+            const interval = setInterval(() => {
+                calculateStartTiming();
+            }, 1000);
+            return () => clearInterval(interval);
+        }
     }, []);
 
 	if(loading){
@@ -149,14 +172,26 @@ export default function Home() {
                     <Card className="w-full">
 						<CardHeader className="flex flex-col items-center justify-center">
 							<h3 className="flex items-center text-red-600 font-bold">
-								<AlertCircle className="mr-3"/>Testing functional till 12th May 2024!
+								<AlertCircle className="mr-3"/> {
+                                    started ? `
+                                    Test Competition is live! 🎉
+                                    `
+                                    :
+                                    `
+                                    TEST COMPETITION WILL START SOON! 🕰️
+                                    `
+                                }
 							</h3>
 						</CardHeader>
 						<Divider/>
                         <CardBody className="flex gap-y-3 w-full text-center">
                             <Separator className="w-full"/>
+                            {
+                                started && `
+                                ${totalPosts} people have already participated! 🎉
+                                `
+                            }
                             <h4 className="text-center text-xl font-bold text-primary-500">{formatTime(timeRemaining.hours)} Hours {formatTime(timeRemaining.minutes)} Minutes {formatTime(timeRemaining.seconds)} Seconds</h4>
-							{totalPosts} people have already participated! 🎉
                             <Separator className="w-full"/>
                         </CardBody>
                     </Card>
@@ -165,7 +200,7 @@ export default function Home() {
                         <CardBody className="flex gap-y-4 w-full text-center">
                             <Separator className="w-full"/>
                             <h3 className="text-center text-xl font-bold text-primary-500">🎉 The competition has ended! 🎉</h3>
-							{totalPosts} people have already participated! 🎉
+							{totalPosts} people have participated! 🎉
                             <Separator className="w-full"/>
                         </CardBody>
                     </Card>
