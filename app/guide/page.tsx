@@ -71,7 +71,7 @@ const Guide = () => {
                                 how to enter:
                             </strong>
                         </h3>
-                        1.Visit our website (<Link href={'/'}>https://ftv.hsbsecunderabad.com</Link>) to learn more and to submit your enteries.
+                        1.Visit our website (<Link href={'/'}>https://ftv.hsbsecunderabad.com</Link>) to learn more and to submit your enteries.<br/>
                         2.Follow us on Instagram for more updates.
 
                     </p>
@@ -93,7 +93,7 @@ const Guide = () => {
                         <br />
                         <h3 className='text-md uppercase underline'>
                             <strong>
-                                sybmission guidelines:
+                                submission guidelines:
                             </strong>
                         </h3>
                         - All entries must be submitted by a specified deadline. Late submissions may not be considered.
@@ -171,7 +171,7 @@ const Guide = () => {
                                 <br />
                                 3. Even when you&apos;re on your own, your beliefs can be your strongest support.
                                 <br />
-                                4. Be the water drop that dances on a leaf, finding joy in the simplest moments.
+                                4. The soul would have no rainbow if the eyes had no tears.
                                 <br />
                                 5. Go where you feel most alive.
                                 <br />
