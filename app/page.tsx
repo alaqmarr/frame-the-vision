@@ -122,7 +122,7 @@ export default function Home() {
         };
     }, []);
 
-    const RealTimeLikeCounter = ({ likedCounterNode }: { likedCounterNode: any }) => {
+    const RealTimeLikeCounter = ({ likedCounterNode }: {likedCounterNode:any}) => {
         const [likeCounter, setLikeCounter] = useState(0);
 
         useEffect(() => {
