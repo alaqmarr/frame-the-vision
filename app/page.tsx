@@ -2,7 +2,7 @@
 import { app } from "@/lib/firebase";
 import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/card";
 import {Image} from "@nextui-org/image";
-import { get, getDatabase, ref } from "firebase/database";
+import { get, getDatabase, ref, orderByChild, query } from "firebase/database";
 import { ReactElement, useEffect, useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Spinner } from "@nextui-org/spinner";
@@ -32,8 +32,7 @@ export default function Home() {
         }, 5000);
     
         const database = getDatabase(app);
-        const postsNode = ref(database, 'frame-the-vision/posts');
-    
+        const postsNode = query(ref(database, 'frame-the-vision/posts'), orderByChild('postedOn'));
         get(postsNode)
             .then((snap) => {
                 clearTimeout(timerId)
@@ -77,6 +76,7 @@ export default function Home() {
                         </Card>
                     );
                 }
+                posts.reverse();
                 setPostsArea(posts);
                 setLoading(false);
                 setTotalPosts(total);
