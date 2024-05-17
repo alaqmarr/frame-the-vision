@@ -33,9 +33,9 @@ const formSchema = z.object({
     name: z.string().min(3),
     mobile: z.string(),
     its: z.string().min(8).max(8).regex(/^[0-9]+$/, "ITS number must be a number"),
-    instagram: z.string().regex(/^[a-zA-Z0-9_]+$/, "Instagram username must be alphanumeric"),
     age: z.string().min(1).max(3).regex(/^[0-9]+$/, "Age must be a number"),
-    city: z.string().min(3)
+    city: z.string().min(3),
+    instagram: z.string().min(3)
 })
 
 const CompleteAccount = ({ userId }: { userId: string }) => {
