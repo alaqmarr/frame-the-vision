@@ -14,7 +14,8 @@ const firebaseConfig = {
 
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 if(app){
-    console.log("Monkey is here! 🐒");
+}else{
+    console.log("app is null")
 }
 export const auth = getAuth();
 export {app};

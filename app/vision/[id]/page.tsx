@@ -7,7 +7,7 @@ import { Divider } from '@nextui-org/divider'
 import { Image } from '@nextui-org/image'
 import { Spinner } from '@nextui-org/spinner'
 import { getDatabase, ref, get } from 'firebase/database'
-import { ArrowLeft, MessageCircleWarningIcon, ShareIcon, Users } from 'lucide-react'
+import { ArrowLeft, InstagramIcon, MessageCircleWarningIcon, ShareIcon, Users } from 'lucide-react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -19,6 +19,7 @@ const Vision = () => {
     const [image, setImage] = useState('')
     const [date, setDate] = useState('')
     const [author, setAuthor] = useState('')
+    const [instagramUsername, setInstagramUsername] = useState('')
     const urlPrams = useParams()
     const id = urlPrams.id
 
@@ -32,6 +33,13 @@ const Vision = () => {
             const image = data.imageUrl
             const date = data.postedOn
             const author = data.author
+            const user = data.user
+            const instagramNode = ref(database, `frame-the-vision/users/${user}/muminInstagramUsername`)
+            get(instagramNode).then((snap) => {
+                const data = snap.val()
+                const instagram = data
+                setInstagramUsername(instagram)
+            })
             setTitle(title)
             setDescription(description)
             setImage(image)
@@ -76,12 +84,18 @@ const Vision = () => {
 
             </div>
             <Divider className='mt-3 mb-3' />
-            <div className='text-center'>
+            <div className='text-center flex flex-col items-center justify-center gap-y-3'>
                 <h4 className='text-sm font-bold'>
                     This vision has been posted by <Code color='primary' className='uppercase font-bold'>{author}</Code> dated <Code color='default'>
                         {new Date(date).toLocaleString()}
                     </Code>
                 </h4>
+                <Divider/>
+                <Link href={`https://instagram.com/${instagramUsername}`}>
+                <Button color='danger' variant={'flat'} className='font-bold uppercase'>
+                    <InstagramIcon/>Follow <strong className='text-blue-500'>{author}</strong>
+                </Button>
+                </Link>
             </div>
             <Divider className='mt-3 mb-3' />
             <Card className='flex flex-col w-full'>

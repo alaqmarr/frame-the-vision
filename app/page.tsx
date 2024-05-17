@@ -53,10 +53,10 @@ export default function Home() {
                                 <CardHeader className="overflow-visible py-2 flex flex-col items-center justify-center">
                                     <Image
                                         alt={postId}
-                                        className="object-cover rounded-xl"
+                                        className="object-cover rounded-xl h-auto"
                                         src={image}
                                         width={1080}
-                                        height={180}
+                                        height={540}
                                     />
                                 </CardHeader>
                                 <CardBody className="pb-0 pt-2 px-4 flex-col items-start">

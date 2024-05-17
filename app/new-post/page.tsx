@@ -22,6 +22,7 @@ import UserLogin from "@/components/LoginComponent";
 import { Spinner } from "@nextui-org/spinner";
 import CompleteAccount from "@/components/CompleteAccount";
 import { Separator } from "@/components/ui/separator";
+import { Select, SelectItem } from "@nextui-org/select"
 const formSchema = z.object({
     image: z.string().url({
         message: "Please provide a valid URL.",
@@ -29,6 +30,7 @@ const formSchema = z.object({
     postedOn: z.string(),
     title: z.string(),
     Description: z.string(),
+    topicId: z.string()
 });
 
 const NewPost = () => {
@@ -104,11 +106,11 @@ const NewPost = () => {
                 calculateStartTiming();
             }
         };
-    
+
         calculate();
-    
+
         const interval = setInterval(calculate, 1000);
-    
+
         return () => clearInterval(interval);
     }, [started]);
 
@@ -168,6 +170,7 @@ const NewPost = () => {
             postedOn: new Date().toISOString(),
             title: '',
             Description: '',
+            topicId: ''
         },
     })
 
@@ -178,6 +181,7 @@ const NewPost = () => {
         const postedOn = values.postedOn;
         const title = values.title;
         const Description = values.Description;
+        const topicId = values.topicId
 
         const database = getDatabase(app);
 
@@ -188,7 +192,9 @@ const NewPost = () => {
             name: title,
             Description: Description,
             user: userID,
+            topicId: topicId
         }
+
         const id = Math.random().toString(36).slice(2);
         const postsRef = ref(database, `frame-the-vision/posts/${id}`);
         const userPostRef = ref(database, `frame-the-vision/users/${userID}/posts/${id}`);
@@ -348,6 +354,38 @@ const NewPost = () => {
                                             />
                                             <FormField
                                                 control={form.control}
+                                                name="topicId"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormControl>
+                                                            <Select
+                                                                label="Select a Topic"
+                                                                className="max-w-xs"
+                                                                onChange={field.onChange}
+                                                            >
+                                                                <SelectItem key={1} value="1">1. Even the smallest actions can yield greater impacts.</SelectItem>
+                                                                <SelectItem key={2} value="2">2. There is often more to things than meets the eye.</SelectItem>
+                                                                <SelectItem key={3} value="3">3. Even when you&apos;re on your own, your beliefs can be your strongest support.</SelectItem>
+                                                                <SelectItem key={4} value="4">4. The soul would have no rainbow if the eyes had no tears.</SelectItem>
+                                                                <SelectItem key={5} value="5">5. Go where you feel most alive.</SelectItem>
+                                                                <SelectItem key={6} value="6">6. In the saddle, we find freedom; in the horse, we find our wings.</SelectItem>
+                                                                <SelectItem key={7} value="7">7. Learning never exhausts the mind.</SelectItem>
+                                                                <SelectItem key={8} value="8">8. Craft a legacy that echoes through generations.</SelectItem>
+                                                                <SelectItem key={9} value="9">9. Bazaar&apos;s of my city.</SelectItem>
+                                                                <SelectItem key={10} value="10">10. Sometimes, the toughest-looking things can surprise you with their gentleness.</SelectItem>
+                                                            </Select>
+                                                        </FormControl>
+                                                        <FormDescription>
+                                                            <Link href="/guide">
+                                                                View Topics here
+                                                            </Link>
+                                                        </FormDescription>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                            <FormField
+                                                control={form.control}
                                                 name="title"
                                                 render={({ field }) => (
                                                     <FormItem>
@@ -435,7 +473,7 @@ const NewPost = () => {
                                                             <Button color="success" variant="flat" className="w-full" isDisabled><CheckCheckIcon className="mr-1" />Posted</Button>
                                                         )
                                                             :
-                                                            <Button type="submit" className="w-full">Submit</Button>
+                                                            <Button color="primary" type="submit" className="w-full">Submit</Button>
                                                 )
                                                     :
                                                     (
