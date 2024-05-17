@@ -35,7 +35,6 @@ export default function Home() {
             setLoggedIn(true)
         }
     }, [user])
-
     useEffect(() => {
         let timerId = setTimeout(() => {
             setError(true);
@@ -122,7 +121,7 @@ export default function Home() {
         };
     }, []);
 
-    const RealTimeLikeCounter = ({ likedCounterNode }: {likedCounterNode:DatabaseReference}) => {
+    const RealTimeLikeCounter = ({ likedCounterNode }: { likedCounterNode: DatabaseReference }) => {
         const [likeCounter, setLikeCounter] = useState(0);
 
         useEffect(() => {
@@ -140,13 +139,13 @@ export default function Home() {
 
         return (
             <>
-            {
-            likeCounter > 0 ? (
-                `❤️ ${likeCounter}`
-            ) : (
-                `No likes yet!`
-            )
-            }
+                {
+                    likeCounter > 0 ? (
+                        `❤️ ${likeCounter}`
+                    ) : (
+                        `No likes yet!`
+                    )
+                }
             </>
         );
     };
@@ -249,6 +248,13 @@ export default function Home() {
                                     <h4 className="text-center text-xl font-bold text-primary-500">{formatTime(timeRemaining.hours)} Hours {formatTime(timeRemaining.minutes)} Minutes {formatTime(timeRemaining.seconds)} Seconds</h4>
                                     <Separator className="w-full" />
                                 </CardBody>
+                                {
+                                    !loggedIn && (
+                                        <CardFooter className="flex flex-col items-center justify-center">
+                                            <p className="text-red-500 font-bold">Login / Register to post and like posts.</p>
+                                        </CardFooter>
+                                    )
+                                }
                             </Card>
                         ) : (
                             <Card className="w-full">

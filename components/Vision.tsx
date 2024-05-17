@@ -9,14 +9,14 @@ import { Code } from '@nextui-org/code'
 import { Divider } from '@nextui-org/divider'
 import { Image } from '@nextui-org/image'
 import { Spinner } from '@nextui-org/spinner'
-import { getDatabase, ref, get, set, remove } from 'firebase/database'
+import { getDatabase, ref, get, set } from 'firebase/database'
 import { ArrowLeft, InstagramIcon, MessageCircleWarningIcon, ShareIcon, Users } from 'lucide-react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 
-const Vision = () => {
+const Vision = ({ id }: {id:string}) => {
     const [loading, setLoading] = useState(true)
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
@@ -28,10 +28,7 @@ const Vision = () => {
     const [loggedIn, setLoggedIn] = useState(false)
     const [liked, setLiked] = useState(false)
     const [counter, setCounter] = useState(0)
-    const urlPrams = useParams()
-    const id = urlPrams.id
     const user = useUser()
-
     function likePost() {
         const database = getDatabase(app)
         const likedByNode = ref(database, `frame-the-vision/posts/${id}/likedBy/${userId}`)
@@ -50,27 +47,6 @@ const Vision = () => {
                 toast.success('Liked')
             })
         })
-    }
-
-    function dislike(){
-        const database = getDatabase(app)
-        const likedByNode = ref(database, `frame-the-vision/posts/${id}/likedBy/${userId}`)
-        setLiked(false)
-        set(likedByNode, false).then(() => {
-            const likedCounterNode = ref(database, `frame-the-vision/posts/${id}/likedCounter`)
-            get(likedCounterNode).then((snap) => {
-                const data = snap.val()
-                if (data) {
-                    const counter = data - 1
-                    set(likedCounterNode, counter)
-                } else {
-                    set(likedCounterNode, 0)
-                }
-            })
-        }).finally(() => {
-            remove(likedByNode)
-        })
-    
     }
 
     useEffect(() => {
@@ -175,15 +151,9 @@ const Vision = () => {
                     {
                         userId !== '' ? (
                             liked ? (
-                                <div className='flex flex-col w-full items-start gap-y-2'>
-                                    <Chip size='md' color='success' variant='flat'>
+                                <Chip size='md' color='danger' variant='flat'>
                                     ❤️ Liked by you and {counter - 1} others
                                 </Chip>
-
-                                <Chip color='danger' variant='flat' onClick={() => dislike()}>
-                                    Remove Like
-                                </Chip>
-                                </div>
                             )
                                 :
                                 <Button color='danger' onClick={() => likePost()}>
