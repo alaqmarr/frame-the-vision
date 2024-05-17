@@ -248,7 +248,7 @@ const NewPost = () => {
             <div className="flex flex-col items-center justify-center h-[70vh]">
                 <Card className="flex flex-col items-center justify-center">
                     <CardBody className="flex gap-y-4 w-full text-center">
-                        <Spinner label="configuring..." color="primary" labelColor="primary" className="mt-3 mb-3" />
+                        <Spinner label="preparing..." color="primary" labelColor="primary" className="mt-3 mb-3" />
                     </CardBody>
                     <Divider />
                     <CardFooter className="max-w-[150px] flex flex-col items-center justify-center text-center">
@@ -269,7 +269,7 @@ const NewPost = () => {
         if (!accountIncomplete && !activeStatus) {
             return (
                 <div className="flex flex-col items-center justify-center w-full h-[60vh]">
-                    <Card className="flex flex-col items-center justify-center">
+                    {/* <Card className="flex flex-col items-center justify-center">
                         <CardHeader className="flex items-center justify-center w-full">
                             <UserXIcon className="text-4xl font-bold" />
                         </CardHeader>
@@ -289,7 +289,7 @@ const NewPost = () => {
                                 LOGOUT <LogOutIcon />
                             </Button>
                         </CardBody>
-                    </Card>
+                    </Card> */}
                 </div>
             )
         }
