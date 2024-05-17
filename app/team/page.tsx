@@ -7,12 +7,13 @@ import React from 'react'
 import alaqmar from '@/app/team/alaqmar.jpg'
 import { SocialIcon } from 'react-social-icons'
 import Link from 'next/link'
-import haider from '@/app/team/haider.jpg'
-import shabbir from '@/app/team/shabbir.jpeg'
 import { LinkIcon } from '@nextui-org/link'
 import { Code } from '@nextui-org/code'
 import { Chip } from '@nextui-org/chip'
 import { Divider } from '@nextui-org/divider'
+import haider from '@/app/team/haider.jpg'
+import shabbir from '@/app/team/shabbir.jpeg'
+import zainabK from '@/app/team/zainabK.jpg'
 
 export const metadata: Metadata = {
   title: 'Organising Team | Frame The Vision'
@@ -120,7 +121,7 @@ const Team = () => {
 
       <Card isFooterBlurred className="min-w-[300px] max-w-[350px] h-[300px] col-span-12 sm:col-span-7 shadow-md" isHoverable={true}>
         <CardHeader className="absolute z-10 flex-col items-start">
-          <Chip color='warning' size='md' className='shadow-md'>
+          <Chip color='primary' size='md' className='shadow-md'>
             <p className="uppercase font-bold">HSB COORDINATOR</p>
           </Chip>
         </CardHeader>
@@ -143,6 +144,55 @@ const Team = () => {
               <Link href={'https://twitter.com/haiderdj53'}>
                 <Button isIconOnly variant='flat' color='primary'>
                   <TwitterIcon />
+                </Button>
+              </Link>
+            </div>
+
+          </div>
+        </CardFooter>
+      </Card>
+
+
+      <Card isFooterBlurred className="min-w-[300px] max-w-[350px] h-[300px] col-span-12 sm:col-span-7" isHoverable={true}>
+        <CardHeader className="absolute z-10 flex-col items-start">
+          <Chip color='danger' size='md' className='shadow-md'>
+            <p className="uppercase font-bold">Core Head | Creative team lead</p>
+          </Chip>
+        </CardHeader>
+        <Image
+          removeWrapper
+          alt="Zainab Kunwarawala"
+          className="z-0 w-full h-full object-cover object-center"
+          src={zainabK.src}
+        />
+        <CardFooter className="absolute bg-black/40 bottom-0 z-10 border-t-1 border-default-600 dark:border-default-100 shadow-md">
+          <div className='flex flex-col w-full gap-y-3'>
+            <h4 className="text-white/90 font-medium text-xl uppercase">Zainab Kunwarawala</h4>
+            <Divider />
+            <div className="flex flex-row items-center justify-evenly w-full">
+              <Link href={'https://alaqmar.tech'}>
+                <Button isIconOnly variant='flat' color='warning'>
+                  <Globe />
+                </Button>
+              </Link>
+              <Link href={'https://instagram.com/alaqmar_19_08'}>
+                <Button isIconOnly variant='flat' color='danger'>
+                  <InstagramIcon />
+                </Button>
+              </Link>
+              <Link href={'https://twitter.com/alaqmarrrr'}>
+                <Button isIconOnly variant='flat' color='primary'>
+                  <TwitterIcon />
+                </Button>
+              </Link>
+              <Link href={'https://github.com/alaqmarr'}>
+                <Button isIconOnly variant='flat' color='default'>
+                  <GithubIcon />
+                </Button>
+              </Link>
+              <Link href={'https://www.linkedin.com/in/al-aqmar-kanchwala-8989a2272'}>
+                <Button isIconOnly color='primary'>
+                  <LinkedinIcon />
                 </Button>
               </Link>
             </div>

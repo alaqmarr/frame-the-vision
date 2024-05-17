@@ -182,7 +182,7 @@ const NewPost = () => {
         const database = getDatabase(app);
 
         const data = {
-            author: userName,
+            author: userID,
             imageUrl: imageUrl,
             postedOn: postedOn,
             name: title,
