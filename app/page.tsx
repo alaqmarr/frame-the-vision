@@ -118,28 +118,30 @@ export default function Home() {
         if(timeDifference <= 0){
             setStarted(true)
         }
-        const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+        if(started){
+            const hours = Math.floor(timeDifference / (1000 * 60 * 60));
         const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
         setTimeRemaining({hours, minutes, seconds});
+        }
     }
 
     useEffect(() => {
-        calculateStartTiming();
-        if(started){
-            calculateTimeRemaining();
-            const interval = setInterval(() => {
+        const calculate = () => {
+            if (started) {
                 calculateTimeRemaining();
-            }, 1000);
-            return () => clearInterval(interval);
-        }else{
-
-            const interval = setInterval(() => {
+            } else {
                 calculateStartTiming();
-            }, 1000);
-            return () => clearInterval(interval);
-        }
-    }, []);
+            }
+        };
+    
+        calculate();
+    
+        const interval = setInterval(calculate, 1000);
+    
+        return () => clearInterval(interval);
+    }, [started]);
+    
 
 	if(loading){
 		return(
