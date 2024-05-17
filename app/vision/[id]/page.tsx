@@ -4,6 +4,7 @@ import { useUser } from '@/lib/auth'
 import { app } from '@/lib/firebase'
 import { Button } from '@nextui-org/button'
 import { Card, CardBody, CardFooter, CardHeader } from '@nextui-org/card'
+import { Chip } from '@nextui-org/chip'
 import { Code } from '@nextui-org/code'
 import { Divider } from '@nextui-org/divider'
 import { Image } from '@nextui-org/image'
@@ -148,14 +149,14 @@ const Vision = () => {
             </div>
             <Divider className='mt-3 mb-3' />
             <Card className='flex flex-col w-full'>
-                <CardHeader className='flex flex-row items-center justify-between'>
+                <CardHeader className='flex flex-col items-start gap-y-3'>
                     <Code color='secondary' className='text-xl font-bold uppercase'>Description</Code>
                     {
                         userId !== '' ? (
                             liked ? (
-                                <Button color='danger' variant='flat'>
-                                    <HeartFilledIcon /> Liked by you and {counter-1} others
-                                </Button>
+                                <Chip size='md' color='danger' variant='flat'>
+                                    ❤️ Liked by you and {counter - 1} others
+                                </Chip>
                             )
                                 :
                                 <Button color='danger' onClick={() => likePost()}>
@@ -164,9 +165,9 @@ const Vision = () => {
                         )
                             :
                             (
-                                <p>
-                                    Liked by {counter} people
-                                </p>
+                                <Chip size='md' color='danger' variant='flat'>
+                                    ❤️ Liked by {counter} people
+                                </Chip>
                             )
                     }
                 </CardHeader>
