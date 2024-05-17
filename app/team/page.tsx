@@ -16,6 +16,7 @@ import shabbir from '@/app/team/shabbir.jpeg'
 import zainabK from '@/app/team/zainabK.jpg'
 import mariyahB from '@/app/team/mariyahB.jpg'
 import aliasgar from '@/app/team/aliasgar.jpg'
+import hsb from '@/app/team/hsb-removebg-preview.png'
 
 export const metadata: Metadata = {
   title: 'Organising Team | Frame The Vision'
@@ -23,6 +24,38 @@ export const metadata: Metadata = {
 
 const Team = () => {
   return (
+    <>
+    <div className='w-full flex flex-col items-center justify-center mb-3'>
+    <Card className="max-w-[400px]">
+      <CardHeader className="flex gap-3">
+        <Image
+          alt="nextui logo"
+          height={40}
+          radius="sm"
+          src={hsb.src}
+          width={40}
+        />
+        <div className="flex flex-col">
+          <p className="text-md">Frame The Vision</p>
+          <p className="text-small text-default-500">HSB Secunderabad</p>
+        </div>
+      </CardHeader>
+      <Divider/>
+      <CardBody>
+        <p>Frame the Vision competition is brought to you by HSB Secunderabad.<br/>You can appreciate our efforts by following our handle on Instagram.</p>
+      </CardBody>
+      <Divider/>
+      <CardFooter className='flex flex-col w-full items-center justify-center'>
+          <Link href={'https://instagram.com/hsbsecunderabad'}>
+            <Button color='danger' variant='flat'>
+              <InstagramIcon size={20} />
+              Follow HSB Secunderbad
+            </Button>
+          </Link>
+      </CardFooter>
+    </Card>
+    </div>
+    <Divider className='mb-3'/>
     <section className='flex flex-row items-center justify-around gap-y-3 flex-wrap'>
       <Card isFooterBlurred className="min-w-[300px] max-w-[350px] h-[300px] col-span-12 sm:col-span-7" isHoverable={true}>
         <CardHeader className="absolute z-10 flex-col items-start">
@@ -247,6 +280,7 @@ const Team = () => {
 
 
     </section>
+    </>
   )
 }
 
