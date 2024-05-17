@@ -2,7 +2,7 @@
 import { app } from "@/lib/firebase";
 import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
-import { get, getDatabase, ref, orderByChild, query, set, onValue } from "firebase/database";
+import { get, getDatabase, ref, orderByChild, query, set, onValue, DatabaseReference } from "firebase/database";
 import { ReactElement, useEffect, useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Spinner } from "@nextui-org/spinner";
@@ -122,7 +122,7 @@ export default function Home() {
         };
     }, []);
 
-    const RealTimeLikeCounter = ({ likedCounterNode }: {likedCounterNode:any}) => {
+    const RealTimeLikeCounter = ({ likedCounterNode }: {likedCounterNode:DatabaseReference}) => {
         const [likeCounter, setLikeCounter] = useState(0);
 
         useEffect(() => {
