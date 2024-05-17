@@ -134,7 +134,7 @@ const NewPost = () => {
                     } else {
                         const data = snap.val();
                         const active = data.active;
-                        const name = data.name;
+                        const name = data.muminName;
                         setUserName(name);
                         if (active) {
                             setActiveStatus(true);
@@ -182,7 +182,7 @@ const NewPost = () => {
         const database = getDatabase(app);
 
         const data = {
-            author: userID,
+            author: userName,
             imageUrl: imageUrl,
             postedOn: postedOn,
             name: title,
