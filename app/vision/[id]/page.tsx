@@ -1,4 +1,6 @@
 'use client'
+import { HeartFilledIcon } from '@/components/icons'
+import { useUser } from '@/lib/auth'
 import { app } from '@/lib/firebase'
 import { Button } from '@nextui-org/button'
 import { Card, CardBody, CardFooter, CardHeader } from '@nextui-org/card'
@@ -6,11 +8,12 @@ import { Code } from '@nextui-org/code'
 import { Divider } from '@nextui-org/divider'
 import { Image } from '@nextui-org/image'
 import { Spinner } from '@nextui-org/spinner'
-import { getDatabase, ref, get } from 'firebase/database'
+import { getDatabase, ref, get, set } from 'firebase/database'
 import { ArrowLeft, InstagramIcon, MessageCircleWarningIcon, ShareIcon, Users } from 'lucide-react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
 
 const Vision = () => {
     const [loading, setLoading] = useState(true)
@@ -20,12 +23,51 @@ const Vision = () => {
     const [date, setDate] = useState('')
     const [author, setAuthor] = useState('')
     const [instagramUsername, setInstagramUsername] = useState('')
+    const [userId, setUserId] = useState('')
+    const [loggedIn, setLoggedIn] = useState(false)
+    const [liked, setLiked] = useState(false)
+    const [counter, setCounter] = useState(0)
     const urlPrams = useParams()
     const id = urlPrams.id
+    const user = useUser()
+
+    function likePost() {
+        const database = getDatabase(app)
+        const likedByNode = ref(database, `frame-the-vision/posts/${id}/likedBy/${userId}`)
+        setLiked(true)
+        set(likedByNode, true).then(() => {
+            const likedCounterNode = ref(database, `frame-the-vision/posts/${id}/likedCounter`)
+            get(likedCounterNode).then((snap) => {
+                const data = snap.val()
+                if (data) {
+                    const counter = data + 1
+                    set(likedCounterNode, counter)
+                } else {
+                    set(likedCounterNode, 1)
+                }
+
+                toast.success('Liked')
+            })
+        })
+
+
+    }
 
     useEffect(() => {
         const database = getDatabase(app)
         const postNode = ref(database, `frame-the-vision/posts/${id}`)
+        if (user) {
+            setLoggedIn(true)
+            setUserId(user.uid)
+            const likedByNode = ref(database, `frame-the-vision/posts/${id}/likedBy/${userId}`)
+            get(likedByNode).then((snap) => {
+                const data = snap.val()
+                if (data) {
+                    setLiked(true)
+                }
+            })
+
+        }
         get(postNode).then((snap) => {
             const data = snap.val()
             const title = data.name
@@ -34,6 +76,8 @@ const Vision = () => {
             const date = data.postedOn
             const author = data.author
             const user = data.user
+            const likedBy = data.likedCounter || 0
+            setCounter(likedBy)
             const instagramNode = ref(database, `frame-the-vision/users/${user}/muminInstagramUsername`)
             get(instagramNode).then((snap) => {
                 const data = snap.val()
@@ -48,7 +92,7 @@ const Vision = () => {
             setLoading(false)
         }
         )
-    }, [id])
+    }, [id, user])
 
     if (loading) {
         return (
@@ -90,17 +134,36 @@ const Vision = () => {
                         {new Date(date).toLocaleString()}
                     </Code>
                 </h4>
-                <Divider/>
+                <Divider />
                 <Link href={`https://instagram.com/${instagramUsername}`}>
-                <Button color='danger' variant={'flat'} className='font-bold uppercase'>
-                    <InstagramIcon/>Follow <strong className='text-blue-500'>{author}</strong>
-                </Button>
+                    <Button color='danger' variant={'flat'} className='font-bold uppercase'>
+                        <InstagramIcon />Follow <strong className='text-blue-500'>{author}</strong>
+                    </Button>
                 </Link>
             </div>
             <Divider className='mt-3 mb-3' />
             <Card className='flex flex-col w-full'>
-                <CardHeader>
+                <CardHeader className='flex flex-row items-center justify-between'>
                     <Code color='secondary' className='text-xl font-bold uppercase'>Description</Code>
+                    {
+                        userId !== '' ? (
+                            liked ? (
+                                <Button color='danger' variant='flat'>
+                                    <HeartFilledIcon /> Liked
+                                </Button>
+                            )
+                                :
+                                <Button color='danger' onClick={() => likePost()}>
+                                    <HeartFilledIcon /> Like
+                                </Button>
+                        )
+                            :
+                            (
+                                <p>
+                                    Liked by {counter} people
+                                </p>
+                            )
+                    }
                 </CardHeader>
                 <Divider />
                 <CardBody>
@@ -109,16 +172,16 @@ const Vision = () => {
             </Card>
             <Divider />
             <div className='flex flex-col items-center justify-center gap-y-6 w-full'>
-            <Link href={`/team`}>
-                <Button color='warning' variant={'flat'} className='font-bold uppercase'>
-                    Frame The Vision Team <Users />
-                </Button>
-            </Link>
-            <Link href={`https://wa.me/917207004751?text=I%20want%20to%20report%20this%20vision%20because%20%0A%0A*VISION_ID*%20${id}`}>
-                <Button color='danger' variant={'flat'} className='font-bold uppercase'>
-                    Report this Vision <MessageCircleWarningIcon />
-                </Button>
-            </Link>
+                <Link href={`/team`}>
+                    <Button color='warning' variant={'flat'} className='font-bold uppercase'>
+                        Frame The Vision Team <Users />
+                    </Button>
+                </Link>
+                <Link href={`https://wa.me/917207004751?text=I%20want%20to%20report%20this%20vision%20because%20%0A%0A*VISION_ID*%20${id}`}>
+                    <Button color='danger' variant={'flat'} className='font-bold uppercase'>
+                        Report this Vision <MessageCircleWarningIcon />
+                    </Button>
+                </Link>
             </div>
 
         </div>

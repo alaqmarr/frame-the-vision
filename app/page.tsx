@@ -2,8 +2,8 @@
 import { app } from "@/lib/firebase";
 import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/card";
 import {Image} from "@nextui-org/image";
-import { get, getDatabase, ref, orderByChild, query } from "firebase/database";
-import { ReactElement, useEffect, useState } from "react";
+import { get, getDatabase, ref, orderByChild, query, set } from "firebase/database";
+import { ReactElement, use, useEffect, useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Spinner } from "@nextui-org/spinner";
 import { Divider } from "@nextui-org/divider";
@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AlertCircle } from "lucide-react";
+import { useUser } from "@/lib/auth";
 
 export default function Home() {
     const router = useRouter()
@@ -23,6 +24,17 @@ export default function Home() {
     const start = new Date("2024-05-17T09:00:00").getTime();
 	const [pageReady, setPageReady] = useState(false)
     const [started, setStarted] = useState(false)
+    const [userId, setUserId] = useState('')
+    const [loggedIn, setLoggedIn] = useState(false)
+
+
+    const user = useUser();
+    useEffect(() => {
+        if(user){
+            setUserId(user.uid)
+            setLoggedIn(true)
+        }
+    }, [user])
 
     useEffect(() => {
         let timerId = setTimeout(() => {
@@ -46,6 +58,7 @@ export default function Home() {
                     const image = allPosts[postId].imageUrl;
                     const date = allPosts[postId].postedOn;
                     const author = allPosts[postId].author;
+                    const likeCounter = allPosts[postId].likeCounter || 0
     
                     posts.push(
                         <Card className="py-4 w-[400px]" isHoverable key={postId} id={postId}>
@@ -66,10 +79,13 @@ export default function Home() {
                                         </small></h4>
                                     <p className="text-tiny font-bold ">{description.length > 60 ? (description.substring(0, 60)+'... READ MORE') : (description)}</p>
                                     <Divider className="mt-3 mb-3"/>
-                                    <div className="flex flex-col items-left justify-center text-left w-full">
+                                    <div className="flex flex-row items-center justify-between text-left w-full">
                                         <small className="text-default-500">
                                             {new Date(date).toLocaleString()}
                                         </small>
+                                        <p>
+                                            {likeCounter} Likes
+                                        </p>
                                     </div>
                                 </CardBody>
                             </Link>
