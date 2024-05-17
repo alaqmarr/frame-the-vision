@@ -2,8 +2,8 @@
 import { app } from "@/lib/firebase";
 import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
-import { get, getDatabase, ref, orderByChild, query, set } from "firebase/database";
-import { ReactElement, use, useEffect, useState } from "react";
+import { get, getDatabase, ref, orderByChild, query, set, onValue } from "firebase/database";
+import { ReactElement, useEffect, useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Spinner } from "@nextui-org/spinner";
 import { Divider } from "@nextui-org/divider";
@@ -28,7 +28,6 @@ export default function Home() {
     const [userId, setUserId] = useState('')
     const [loggedIn, setLoggedIn] = useState(false)
 
-
     const user = useUser();
     useEffect(() => {
         if (user) {
@@ -46,20 +45,26 @@ export default function Home() {
 
         const database = getDatabase(app);
         const postsNode = query(ref(database, 'frame-the-vision/posts'), orderByChild('postedOn'));
-        get(postsNode)
-            .then((snap) => {
-                clearTimeout(timerId)
-                var posts = [];
+
+        const handlePostsFetch = async () => {
+            try {
+                const snap = await get(postsNode);
+                clearTimeout(timerId);
                 const allPosts = snap.val();
+                if (!allPosts) {
+                    setLoading(false);
+                    setPageReady(true);
+                    return;
+                }
+
+                var posts = [];
                 var total = 0;
+
                 for (const postId in allPosts) {
                     total++;
-                    const title = allPosts[postId].name;
-                    const description = allPosts[postId].Description;
-                    const image = allPosts[postId].imageUrl;
-                    const date = allPosts[postId].postedOn;
-                    const author = allPosts[postId].author;
-                    const likeCounter = allPosts[postId].likedCounter || 0
+                    const post = allPosts[postId];
+                    const { name: title, Description: description, imageUrl: image, postedOn: date, author } = post;
+                    const likedCounterNode = ref(database, `frame-the-vision/posts/${postId}/likedCounter`);
 
                     posts.push(
                         <Card className="py-4 w-[400px]" isHoverable key={postId} id={postId}>
@@ -80,11 +85,7 @@ export default function Home() {
                                         </small></h4>
                                     <Code color="danger" className="font-bold mb-3" radius="lg">
                                         {
-                                            likeCounter > 0 ? (
-                                                `❤️ ${likeCounter}`
-                                            ) : (
-                                                `No likes yet!`
-                                            )
+                                            <RealTimeLikeCounter likedCounterNode={likedCounterNode} />
                                         }
                                     </Code>
                                     <p className="text-tiny font-bold ">{description.length > 60 ? (description.substring(0, 60) + '... READ MORE') : (description)}</p>
@@ -99,26 +100,52 @@ export default function Home() {
                         </Card>
                     );
                 }
+
                 posts.reverse();
                 setPostsArea(posts);
                 setLoading(false);
                 setTotalPosts(total);
                 setPageReady(true);
-            })
-            .catch((error) => {
-                clearTimeout(timerId)
+            } catch (error: any) {
+                clearTimeout(timerId);
                 setError(true);
                 setLoading(false);
                 console.error(error);
-                console.error(error.message);
                 toast.error(error.message);
-            });
+            }
+        };
+
+        handlePostsFetch();
 
         return () => {
             clearTimeout(timerId);
         };
     }, []);
 
+    const RealTimeLikeCounter = ({ likedCounterNode }: { likedCounterNode: any }) => {
+        const [likeCounter, setLikeCounter] = useState(0);
+
+        useEffect(() => {
+            const unsubscribe = onValue(likedCounterNode, (snap) => {
+                const data = snap.val();
+                if (data) {
+                    setLikeCounter(data);
+                }
+            });
+
+            return () => {
+                unsubscribe();
+            };
+        }, [likedCounterNode]);
+
+        return (
+            likeCounter > 0 ? (
+                `❤️ ${likeCounter}`
+            ) : (
+                `No likes yet!`
+            )
+        );
+    };
 
     // Function to format time
     function formatTime(time: any) {
@@ -164,7 +191,6 @@ export default function Home() {
 
         return () => clearInterval(interval);
     }, [started]);
-
 
     if (loading) {
         return (
