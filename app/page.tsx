@@ -139,11 +139,15 @@ export default function Home() {
         }, [likedCounterNode]);
 
         return (
+            <>
+            {
             likeCounter > 0 ? (
                 `❤️ ${likeCounter}`
             ) : (
                 `No likes yet!`
             )
+            }
+            </>
         );
     };
 
