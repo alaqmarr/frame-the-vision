@@ -15,7 +15,6 @@ import { AlertCircle, CheckCheckIcon, HomeIcon, Link2, LogOutIcon, TicketIcon, T
 import { Progress } from "@nextui-org/progress";
 import { getDatabase, push, ref, set, get } from "firebase/database";
 import { Code } from "@nextui-org/code";
-import { Link } from "@nextui-org/link";
 import toast from "react-hot-toast";
 import { signOut, useUser } from "@/lib/auth";
 import UserLogin from "@/components/LoginComponent";
@@ -23,6 +22,8 @@ import { Spinner } from "@nextui-org/spinner";
 import CompleteAccount from "@/components/CompleteAccount";
 import { Separator } from "@/components/ui/separator";
 import { Select, SelectItem } from "@nextui-org/select"
+import Link from "next/link";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@nextui-org/modal";
 const formSchema = z.object({
     image: z.string().url({
         message: "Please provide a valid URL.",
@@ -54,6 +55,7 @@ const NewPost = () => {
     const [started, setStarted] = useState(false);
     const [timeRemaining, setTimeRemaining] = useState({ hours: 0, minutes: 0, seconds: 0 });
     const [pageReady, setPageReady] = useState(false);
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     async function signUserOut() {
         await signOut().then(() => {
@@ -376,9 +378,45 @@ const NewPost = () => {
                                                             </Select>
                                                         </FormControl>
                                                         <FormDescription>
-                                                            <Link href="/guide">
-                                                                View Topics here
-                                                            </Link>
+                                                            <Button onPress={onOpen}>View Topics</Button>
+                                                            <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true}>
+                                                                <ModalContent>
+                                                                    {(onClose: any) => (
+                                                                        <>
+                                                                            <ModalHeader className="flex flex-col gap-1">Topics</ModalHeader>
+                                                                            <ModalBody>
+                                                                                <h3 className='text-md font-bold uppercase'>
+                                                                                    1. Even the smallest actions can yield greater impacts.
+                                                                                    <br />
+                                                                                    2. There is often more to things than meets the eye.
+                                                                                    <br />
+                                                                                    3. Even when you&apos;re on your own, your beliefs can be your strongest support.
+                                                                                    <br />
+                                                                                    4. The soul would have no rainbow if the eyes had no tears.
+                                                                                    <br />
+                                                                                    5. Go where you feel most alive.
+                                                                                    <br />
+                                                                                    6. In the saddle, we find freedom; in the horse, we find our wings.
+                                                                                    <br />
+                                                                                    7. Learning never exhausts the mind.
+                                                                                    <br />
+                                                                                    8. Craft a legacy that echoes through generations.
+                                                                                    <br />
+                                                                                    9. Bazaar&apos;s of my city.
+                                                                                    <br />
+                                                                                    10. Sometimes, the toughest-looking things can surprise you with their gentleness.
+                                                                                    <br />
+                                                                                </h3>
+                                                                            </ModalBody>
+                                                                            <ModalFooter>
+                                                                                <Button color="danger" variant="light" onPress={onClose}>
+                                                                                    Close
+                                                                                </Button>
+                                                                            </ModalFooter>
+                                                                        </>
+                                                                    )}
+                                                                </ModalContent>
+                                                            </Modal>
                                                         </FormDescription>
                                                         <FormMessage />
                                                     </FormItem>
@@ -487,14 +525,13 @@ const NewPost = () => {
                                     posted && (
                                         <CardFooter className="flex flex-col items-center justify-center w-full">
                                             <Code color="success" className="flex flex-col items-center justify-center">
-                                                <Link href={shareableUrl} isExternal>
+                                                <Link href={shareableUrl} target="_blank">
                                                     <Link2 className="mr-1" /> View Post
                                                 </Link>
                                             </Code>
                                         </CardFooter>
                                     )
                                 }
-
                             </Card>
                         )
                             :
