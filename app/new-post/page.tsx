@@ -97,22 +97,20 @@ const NewPost = () => {
     }
 
     useEffect(() => {
-        calculateStartTiming();
-        if (started) {
-            calculateTimeRemaining();
-            setPageReady(true);
-            const interval = setInterval(() => {
+        const calculate = () => {
+            if (started) {
                 calculateTimeRemaining();
-            }, 1000);
-            return () => clearInterval(interval);
-        } else {
-
-            const interval = setInterval(() => {
+            } else {
                 calculateStartTiming();
-            }, 1000);
-            return () => clearInterval(interval);
-        }
-    }, []);
+            }
+        };
+    
+        calculate();
+    
+        const interval = setInterval(calculate, 1000);
+    
+        return () => clearInterval(interval);
+    }, [started]);
 
     useEffect(() => {
         setUserID('');
