@@ -49,25 +49,11 @@ const Vision = () => {
                 toast.success('Liked')
             })
         })
-
-
     }
 
     useEffect(() => {
         const database = getDatabase(app)
         const postNode = ref(database, `frame-the-vision/posts/${id}`)
-        if (user) {
-            setLoggedIn(true)
-            setUserId(user.uid)
-            const likedByNode = ref(database, `frame-the-vision/posts/${id}/likedBy/${userId}`)
-            get(likedByNode).then((snap) => {
-                const data = snap.val()
-                if (data) {
-                    setLiked(true)
-                }
-            })
-
-        }
         get(postNode).then((snap) => {
             const data = snap.val()
             const title = data.name
@@ -90,9 +76,28 @@ const Vision = () => {
             setDate(date)
             setAuthor(author)
             setLoading(false)
+        })
+    }, [id])
+
+    useEffect(() => {
+        if (user) {
+            setLoggedIn(true)
+            setUserId(user.uid)
         }
-        )
-    }, [id, user])
+    }, [user])
+
+    useEffect(() => {
+        if (userId) {
+            const database = getDatabase(app)
+            const likedByNode = ref(database, `frame-the-vision/posts/${id}/likedBy/${userId}`)
+            get(likedByNode).then((snap) => {
+                const data = snap.val()
+                if (data) {
+                    setLiked(true)
+                }
+            })
+        }
+    }, [userId, id])
 
     if (loading) {
         return (
@@ -149,7 +154,7 @@ const Vision = () => {
                         userId !== '' ? (
                             liked ? (
                                 <Button color='danger' variant='flat'>
-                                    <HeartFilledIcon /> Liked
+                                    <HeartFilledIcon /> Liked by you and {counter-1} others
                                 </Button>
                             )
                                 :
