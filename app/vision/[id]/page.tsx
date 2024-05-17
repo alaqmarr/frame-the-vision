@@ -167,8 +167,9 @@ const Vision = () => {
                 </CardHeader>
                 <Divider />
                 <CardBody>
-                    <h1 className='text-md font-semibold'>{description}</h1>
+                    <h1 className='text-md font-semibold' dangerouslySetInnerHTML={{ __html: description.replace(/\n/g, '<br>') }} />
                 </CardBody>
+
             </Card>
             <Divider />
             <div className='flex flex-col items-center justify-center gap-y-6 w-full'>
