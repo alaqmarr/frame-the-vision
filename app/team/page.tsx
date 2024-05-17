@@ -18,6 +18,7 @@ import mariyahB from '@/app/team/mariyahB.jpg'
 import aliasgar from '@/app/team/aliasgar.jpg'
 import hsb from '@/app/team/hsb-removebg-preview.png'
 import batul from '@/app/team/batul.jpg'
+import naqiya from '@/app/team/naqiya.jpg'
 
 export const metadata: Metadata = {
   title: 'Organising Team | Frame The Vision'
@@ -253,7 +254,35 @@ const Team = () => {
 
         <Card isFooterBlurred className="min-w-[300px] max-w-[350px] h-[300px] col-span-12 sm:col-span-7" isHoverable={true}>
           <CardHeader className="absolute z-10 flex-col items-start">
-            <Chip color='secondary' size='md' className='shadow-md'>
+            <Chip color='danger' size='md' className='shadow-md'>
+              <p className="uppercase font-bold">Creative Team member</p>
+            </Chip>
+          </CardHeader>
+          <Image
+            removeWrapper
+            alt="Naquiya Saleh"
+            className="z-0 w-full h-full object-cover object-center"
+            src={naqiya.src}
+          />
+          <CardFooter className="absolute bg-black/40 bottom-0 z-10 border-t-1 border-default-600 dark:border-default-100 shadow-md">
+            <div className='flex flex-col w-full gap-y-3'>
+              <h4 className="text-white/90 font-medium text-xl uppercase">Naquiya Saleh</h4>
+              <Divider />
+              <div className="flex flex-row items-center justify-evenly w-full">
+                <Link href={'https://instagram.com/naquiya_s'}>
+                  <Button isIconOnly variant='flat' color='danger'>
+                    <InstagramIcon />
+                  </Button>
+                </Link>
+              </div>
+
+            </div>
+          </CardFooter>
+        </Card>
+
+        <Card isFooterBlurred className="min-w-[300px] max-w-[350px] h-[300px] col-span-12 sm:col-span-7" isHoverable={true}>
+          <CardHeader className="absolute z-10 flex-col items-start">
+            <Chip color='danger' size='md' className='shadow-md'>
               <p className="uppercase font-bold">design team head</p>
             </Chip>
           </CardHeader>
@@ -280,33 +309,6 @@ const Team = () => {
         </Card>
 
 
-        {/* <Card isFooterBlurred className="min-w-[300px] max-w-[350px] h-[300px] col-span-12 sm:col-span-7" isHoverable={true}>
-          <CardHeader className="absolute z-10 flex-col items-start">
-            <Chip color='secondary' size='md' className='shadow-md'>
-              <p className="uppercase font-bold">design team head</p>
-            </Chip>
-          </CardHeader>
-          <Image
-            removeWrapper
-            alt="Batul Miyajiwala"
-            className="z-0 w-full h-full object-cover object-center"
-            src={batul.src}
-          />
-          <CardFooter className="absolute bg-black/40 bottom-0 z-10 border-t-1 border-default-600 dark:border-default-100 shadow-md">
-            <div className='flex flex-col w-full gap-y-3'>
-              <h4 className="text-white/90 font-medium text-xl uppercase">Batul Miyajiwala</h4>
-              <Divider />
-              <div className="flex flex-row items-center justify-evenly w-full">
-                <Link href={'https://www.linkedin.com/in/batulmiyajiwala'}>
-                  <Button isIconOnly color='primary'>
-                    <LinkedinIcon />
-                  </Button>
-                </Link>
-              </div>
-
-            </div>
-          </CardFooter>
-        </Card> */}
 
 
       </section>
