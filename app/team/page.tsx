@@ -46,7 +46,7 @@ const Team = () => {
       </CardBody>
       <Divider/>
       <CardFooter className='flex flex-col w-full items-center justify-center'>
-          <Link href={'https://instagram.com/hsbsecunderabad'}>
+          <Link href={'https://instagram.com/hsb.secbad'}>
             <Button color='danger' variant='flat'>
               <InstagramIcon size={20} />
               Follow HSB Secunderbad
