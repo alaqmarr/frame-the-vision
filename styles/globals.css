@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@font-face {
+  font-family: 'kanz';
+  src: url('../app/al-kanz.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'marjaan';
+  src: url('../app/kanz-marjaan.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
