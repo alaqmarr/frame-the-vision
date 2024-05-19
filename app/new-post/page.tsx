@@ -56,6 +56,7 @@ const NewPost = () => {
     const [timeRemaining, setTimeRemaining] = useState({ hours: 0, minutes: 0, seconds: 0 });
     const [pageReady, setPageReady] = useState(false);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const [ended, setEnded] = useState(false);
 
     async function signUserOut() {
         await signOut().then(() => {
@@ -85,6 +86,9 @@ const NewPost = () => {
         const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
         setTimeRemaining({ hours, minutes, seconds });
         setPageReady(true);
+        if (now > end) {
+            setEnded(true);
+        }
     }
 
     function calculateStartTiming() {
@@ -332,244 +336,255 @@ const NewPost = () => {
                         <Button color="default" variant="flat" className="w-full mb-3 max-w-[400px]" href="/"><HomeIcon />return to Homepage</Button>
                     </Link>
                     {
-                        started ? (
-                            <Card className="max-w-[450px]">
-                                <CardHeader>
-                                    <h4 className="font-bold text-large uppercase">POST MY VISION</h4>
-                                </CardHeader>
-                                <Divider />
-                                <CardBody>
-                                    <Form {...form}>
-                                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                                            <FormField
-                                                control={form.control}
-                                                name="postedOn"
-                                                render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormLabel>Posted On</FormLabel>
-                                                        <FormControl>
-                                                            <Input placeholder={new Date().toISOString()} {...field} disabled={true} readOnly={true} isRequired />
-                                                        </FormControl>
-                                                        <FormMessage />
-                                                    </FormItem>
-                                                )}
-                                            />
-                                            <FormField
-                                                control={form.control}
-                                                name="topicId"
-                                                render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormControl>
-                                                            <Select
-                                                                label="Select a Topic"
-                                                                className="max-w-xs"
-                                                                onChange={field.onChange}
-                                                            >
-                                                                <SelectItem key={1} value="1">1. Even the smallest actions can yield greater impacts.</SelectItem>
-                                                                <SelectItem key={2} value="2">2. There is often more to things than meets the eye.</SelectItem>
-                                                                <SelectItem key={3} value="3">3. Even when you&apos;re on your own, your beliefs can be your strongest support.</SelectItem>
-                                                                <SelectItem key={4} value="4">4. The soul would have no rainbow if the eyes had no tears.</SelectItem>
-                                                                <SelectItem key={5} value="5">5. Go where you feel most alive.</SelectItem>
-                                                                <SelectItem key={6} value="6">6. In the saddle, we find freedom; in the horse, we find our wings.</SelectItem>
-                                                                <SelectItem key={7} value="7">7. Learning never exhausts the mind.</SelectItem>
-                                                                <SelectItem key={8} value="8">8. Craft a legacy that echoes through generations.</SelectItem>
-                                                                <SelectItem key={9} value="9">9. Bazaar&apos;s of my city.</SelectItem>
-                                                                <SelectItem key={10} value="10">10. Sometimes, the toughest-looking things can surprise you with their gentleness.</SelectItem>
-                                                            </Select>
-                                                        </FormControl>
-                                                        <FormDescription>
-                                                            <Button onPress={onOpen}>View Topics</Button>
-                                                            <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true}>
-                                                                <ModalContent>
-                                                                    {(onClose: any) => (
-                                                                        <>
-                                                                            <ModalHeader className="flex flex-col gap-1">Topics</ModalHeader>
-                                                                            <ModalBody>
-                                                                                <h3 className='text-md font-bold uppercase'>
-                                                                                    1. Even the smallest actions can yield greater impacts.
-                                                                                    <br />
-                                                                                    2. There is often more to things than meets the eye.
-                                                                                    <br />
-                                                                                    3. Even when you&apos;re on your own, your beliefs can be your strongest support.
-                                                                                    <br />
-                                                                                    4. The soul would have no rainbow if the eyes had no tears.
-                                                                                    <br />
-                                                                                    5. Go where you feel most alive.
-                                                                                    <br />
-                                                                                    6. In the saddle, we find freedom; in the horse, we find our wings.
-                                                                                    <br />
-                                                                                    7. Learning never exhausts the mind.
-                                                                                    <br />
-                                                                                    8. Craft a legacy that echoes through generations.
-                                                                                    <br />
-                                                                                    9. Bazaar&apos;s of my city.
-                                                                                    <br />
-                                                                                    10. Sometimes, the toughest-looking things can surprise you with their gentleness.
-                                                                                    <br />
-                                                                                </h3>
-                                                                            </ModalBody>
-                                                                            <ModalFooter>
-                                                                                <Button color="danger" variant="light" onPress={onClose}>
-                                                                                    Close
-                                                                                </Button>
-                                                                            </ModalFooter>
-                                                                        </>
-                                                                    )}
-                                                                </ModalContent>
-                                                            </Modal>
-                                                        </FormDescription>
-                                                        <FormMessage />
-                                                    </FormItem>
-                                                )}
-                                            />
-                                            <FormField
-                                                control={form.control}
-                                                name="title"
-                                                render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormLabel>Post Title</FormLabel>
-                                                        <FormControl>
-                                                            <Input placeholder='Initiative by HSB Secunderabad' {...field} isRequired />
-                                                        </FormControl>
-                                                        <FormMessage />
-                                                    </FormItem>
-                                                )}
-                                            />
-
-                                            <FormField
-                                                control={form.control}
-                                                name="Description"
-                                                render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormLabel>Post Description</FormLabel>
-                                                        <FormControl>
-                                                            <Textarea
-                                                                isRequired
-                                                                labelPlacement="outside"
-                                                                placeholder="Enter your description"
-                                                                {...field}
-                                                            />
-                                                        </FormControl>
-                                                        <FormMessage />
-                                                    </FormItem>
-                                                )}
-                                            />
-
-                                            <div className="image-upload-form flex flex-col">
-                                                <label htmlFor="image-upload">Select image (Upload will begin immediately )</label>
-                                                <br />
-                                                <input
-                                                    type="file"
-                                                    accept="image/*"
-                                                    name="image-upload"
-                                                    id="image-upload"
-                                                    onInput={handleImageUpload}
-                                                    required
-                                                    disabled={uploading}
-                                                />
-                                            </div>
-
-                                            {
-                                                uploading ? (
-                                                    <Progress
-                                                        size="sm"
-                                                        isIndeterminate
-                                                        aria-label="uploading..."
-                                                    />
-                                                )
-                                                    :
-                                                    imageReady ? (
-                                                        <p>Image Uploaded</p>
-                                                    )
-                                                        :
-                                                        (
-                                                            ''
-                                                        )
-                                            }
-
-                                            <FormField
-                                                control={form.control}
-                                                name="image"
-                                                defaultValue={imageURL}
-                                                render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormLabel>Image URL</FormLabel>
-                                                        <FormControl>
-                                                            <Input placeholder={imageURL} {...field} disabled isRequired isReadOnly />
-                                                        </FormControl>
-                                                        <FormMessage />
-                                                    </FormItem>
-                                                )}
-                                            />
-                                            {
-                                                imageReady ? (
-                                                    submitting ? (
-                                                        <Button variant="flat" color="success" className="w-full" isDisabled isLoading>posting...</Button>
-                                                    )
-                                                        :
-                                                        posted ? (
-                                                            <Button color="success" variant="flat" className="w-full" isDisabled><CheckCheckIcon className="mr-1" />Posted</Button>
-                                                        )
-                                                            :
-                                                            <Button color="primary" type="submit" className="w-full">Submit</Button>
-                                                )
-                                                    :
-                                                    (
-                                                        <Button variant="flat" color="danger" className="w-full" isDisabled>Please upload an image</Button>
-                                                    )
-                                            }
-                                        </form>
-                                    </Form>
+                        ended ? (
+                            <Card className="w-full">
+                                <CardBody className="flex gap-y-4 w-full text-center">
+                                    <Separator className="w-full" />
+                                    <h3 className="text-center text-xl font-bold text-red-500">We are no longer accepting responses. <br /> The Competition has ended.</h3>
+                                    <Separator className="w-full" />
                                 </CardBody>
-                                {
-                                    posted && (
-                                        <CardFooter className="flex flex-col items-center justify-center w-full">
-                                            <Code color="success" className="flex flex-col items-center justify-center">
-                                                <Link href={shareableUrl} target="_blank">
-                                                    <Link2 className="mr-1" /> View Post
-                                                </Link>
-                                            </Code>
-                                        </CardFooter>
-                                    )
-                                }
                             </Card>
                         )
                             :
-                            pageReady && (
-                                <div className="mb-3">
-                                    {(new Date().getTime() < end) ? (
-                                        <Card className="w-full">
-                                            <CardHeader className="flex flex-col items-center justify-center">
-                                                <h3 className="flex items-center text-red-600 font-bold">
-                                                    <AlertCircle className="mr-3" /> {
-                                                        started ? `
+
+                            started ? (
+                                <Card className="max-w-[450px]">
+                                    <CardHeader>
+                                        <h4 className="font-bold text-large uppercase">POST MY VISION</h4>
+                                    </CardHeader>
+                                    <Divider />
+                                    <CardBody>
+                                        <Form {...form}>
+                                            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                                                <FormField
+                                                    control={form.control}
+                                                    name="postedOn"
+                                                    render={({ field }) => (
+                                                        <FormItem>
+                                                            <FormLabel>Posted On</FormLabel>
+                                                            <FormControl>
+                                                                <Input placeholder={new Date().toISOString()} {...field} disabled={true} readOnly={true} isRequired />
+                                                            </FormControl>
+                                                            <FormMessage />
+                                                        </FormItem>
+                                                    )}
+                                                />
+                                                <FormField
+                                                    control={form.control}
+                                                    name="topicId"
+                                                    render={({ field }) => (
+                                                        <FormItem>
+                                                            <FormControl>
+                                                                <Select
+                                                                    label="Select a Topic"
+                                                                    className="max-w-xs"
+                                                                    onChange={field.onChange}
+                                                                >
+                                                                    <SelectItem key={1} value="1">1. Even the smallest actions can yield greater impacts.</SelectItem>
+                                                                    <SelectItem key={2} value="2">2. There is often more to things than meets the eye.</SelectItem>
+                                                                    <SelectItem key={3} value="3">3. Even when you&apos;re on your own, your beliefs can be your strongest support.</SelectItem>
+                                                                    <SelectItem key={4} value="4">4. The soul would have no rainbow if the eyes had no tears.</SelectItem>
+                                                                    <SelectItem key={5} value="5">5. Go where you feel most alive.</SelectItem>
+                                                                    <SelectItem key={6} value="6">6. In the saddle, we find freedom; in the horse, we find our wings.</SelectItem>
+                                                                    <SelectItem key={7} value="7">7. Learning never exhausts the mind.</SelectItem>
+                                                                    <SelectItem key={8} value="8">8. Craft a legacy that echoes through generations.</SelectItem>
+                                                                    <SelectItem key={9} value="9">9. Bazaar&apos;s of my city.</SelectItem>
+                                                                    <SelectItem key={10} value="10">10. Sometimes, the toughest-looking things can surprise you with their gentleness.</SelectItem>
+                                                                </Select>
+                                                            </FormControl>
+                                                            <FormDescription>
+                                                                <Button onPress={onOpen}>View Topics</Button>
+                                                                <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true}>
+                                                                    <ModalContent>
+                                                                        {(onClose: any) => (
+                                                                            <>
+                                                                                <ModalHeader className="flex flex-col gap-1">Topics</ModalHeader>
+                                                                                <ModalBody>
+                                                                                    <h3 className='text-md font-bold uppercase'>
+                                                                                        1. Even the smallest actions can yield greater impacts.
+                                                                                        <br />
+                                                                                        2. There is often more to things than meets the eye.
+                                                                                        <br />
+                                                                                        3. Even when you&apos;re on your own, your beliefs can be your strongest support.
+                                                                                        <br />
+                                                                                        4. The soul would have no rainbow if the eyes had no tears.
+                                                                                        <br />
+                                                                                        5. Go where you feel most alive.
+                                                                                        <br />
+                                                                                        6. In the saddle, we find freedom; in the horse, we find our wings.
+                                                                                        <br />
+                                                                                        7. Learning never exhausts the mind.
+                                                                                        <br />
+                                                                                        8. Craft a legacy that echoes through generations.
+                                                                                        <br />
+                                                                                        9. Bazaar&apos;s of my city.
+                                                                                        <br />
+                                                                                        10. Sometimes, the toughest-looking things can surprise you with their gentleness.
+                                                                                        <br />
+                                                                                    </h3>
+                                                                                </ModalBody>
+                                                                                <ModalFooter>
+                                                                                    <Button color="danger" variant="light" onPress={onClose}>
+                                                                                        Close
+                                                                                    </Button>
+                                                                                </ModalFooter>
+                                                                            </>
+                                                                        )}
+                                                                    </ModalContent>
+                                                                </Modal>
+                                                            </FormDescription>
+                                                            <FormMessage />
+                                                        </FormItem>
+                                                    )}
+                                                />
+                                                <FormField
+                                                    control={form.control}
+                                                    name="title"
+                                                    render={({ field }) => (
+                                                        <FormItem>
+                                                            <FormLabel>Post Title</FormLabel>
+                                                            <FormControl>
+                                                                <Input placeholder='Initiative by HSB Secunderabad' {...field} isRequired />
+                                                            </FormControl>
+                                                            <FormMessage />
+                                                        </FormItem>
+                                                    )}
+                                                />
+
+                                                <FormField
+                                                    control={form.control}
+                                                    name="Description"
+                                                    render={({ field }) => (
+                                                        <FormItem>
+                                                            <FormLabel>Post Description</FormLabel>
+                                                            <FormControl>
+                                                                <Textarea
+                                                                    isRequired
+                                                                    labelPlacement="outside"
+                                                                    placeholder="Enter your description"
+                                                                    {...field}
+                                                                />
+                                                            </FormControl>
+                                                            <FormMessage />
+                                                        </FormItem>
+                                                    )}
+                                                />
+
+                                                <div className="image-upload-form flex flex-col">
+                                                    <label htmlFor="image-upload">Select image (Upload will begin immediately )</label>
+                                                    <br />
+                                                    <input
+                                                        type="file"
+                                                        accept="image/*"
+                                                        name="image-upload"
+                                                        id="image-upload"
+                                                        onInput={handleImageUpload}
+                                                        required
+                                                        disabled={uploading}
+                                                    />
+                                                </div>
+
+                                                {
+                                                    uploading ? (
+                                                        <Progress
+                                                            size="sm"
+                                                            isIndeterminate
+                                                            aria-label="uploading..."
+                                                        />
+                                                    )
+                                                        :
+                                                        imageReady ? (
+                                                            <p>Image Uploaded</p>
+                                                        )
+                                                            :
+                                                            (
+                                                                ''
+                                                            )
+                                                }
+
+                                                <FormField
+                                                    control={form.control}
+                                                    name="image"
+                                                    defaultValue={imageURL}
+                                                    render={({ field }) => (
+                                                        <FormItem>
+                                                            <FormLabel>Image URL</FormLabel>
+                                                            <FormControl>
+                                                                <Input placeholder={imageURL} {...field} disabled isRequired isReadOnly />
+                                                            </FormControl>
+                                                            <FormMessage />
+                                                        </FormItem>
+                                                    )}
+                                                />
+                                                {
+                                                    imageReady ? (
+                                                        submitting ? (
+                                                            <Button variant="flat" color="success" className="w-full" isDisabled isLoading>posting...</Button>
+                                                        )
+                                                            :
+                                                            posted ? (
+                                                                <Button color="success" variant="flat" className="w-full" isDisabled><CheckCheckIcon className="mr-1" />Posted</Button>
+                                                            )
+                                                                :
+                                                                <Button color="primary" type="submit" className="w-full">Submit</Button>
+                                                    )
+                                                        :
+                                                        (
+                                                            <Button variant="flat" color="danger" className="w-full" isDisabled>Please upload an image</Button>
+                                                        )
+                                                }
+                                            </form>
+                                        </Form>
+                                    </CardBody>
+                                    {
+                                        posted && (
+                                            <CardFooter className="flex flex-col items-center justify-center w-full">
+                                                <Code color="success" className="flex flex-col items-center justify-center">
+                                                    <Link href={shareableUrl} target="_blank">
+                                                        <Link2 className="mr-1" /> View Post
+                                                    </Link>
+                                                </Code>
+                                            </CardFooter>
+                                        )
+                                    }
+                                </Card>
+                            )
+                                :
+                                pageReady && (
+                                    <div className="mb-3">
+                                        {(new Date().getTime() < end) ? (
+                                            <Card className="w-full">
+                                                <CardHeader className="flex flex-col items-center justify-center">
+                                                    <h3 className="flex items-center text-red-600 font-bold">
+                                                        <AlertCircle className="mr-3" /> {
+                                                            started ? `
                                             Test Competition is live! 🎉
                                             `
-                                                            :
-                                                            `
+                                                                :
+                                                                `
                                             TEST COMPETITION WILL START SOON! 🕰️
                                             `
-                                                    }
-                                                </h3>
-                                            </CardHeader>
-                                            <Divider />
-                                            <CardBody className="flex gap-y-3 w-full text-center">
-                                                <Separator className="w-full" />
-                                                <h4 className="text-center text-xl font-bold text-primary-500">{formatTime(timeRemaining.hours)} Hours {formatTime(timeRemaining.minutes)} Minutes {formatTime(timeRemaining.seconds)} Seconds</h4>
-                                                <Separator className="w-full" />
-                                            </CardBody>
-                                        </Card>
-                                    ) : (
-                                        <Card className="w-full">
-                                            <CardBody className="flex gap-y-4 w-full text-center">
-                                                <Separator className="w-full" />
-                                                <h3 className="text-center text-xl font-bold text-primary-500">🎉 The competition has ended! 🎉</h3>
-                                                <Separator className="w-full" />
-                                            </CardBody>
-                                        </Card>
-                                    )}
-                                </div>
-                            )
+                                                        }
+                                                    </h3>
+                                                </CardHeader>
+                                                <Divider />
+                                                <CardBody className="flex gap-y-3 w-full text-center">
+                                                    <Separator className="w-full" />
+                                                    <h4 className="text-center text-xl font-bold text-primary-500">{formatTime(timeRemaining.hours)} Hours {formatTime(timeRemaining.minutes)} Minutes {formatTime(timeRemaining.seconds)} Seconds</h4>
+                                                    <Separator className="w-full" />
+                                                </CardBody>
+                                            </Card>
+                                        ) : (
+                                            <Card className="w-full">
+                                                <CardBody className="flex gap-y-4 w-full text-center">
+                                                    <Separator className="w-full" />
+                                                    <h3 className="text-center text-xl font-bold text-primary-500">🎉 The competition has ended! 🎉</h3>
+                                                    <Separator className="w-full" />
+                                                </CardBody>
+                                            </Card>
+                                        )}
+                                    </div>
+                                )
 
                     }
                 </section>
