@@ -200,7 +200,7 @@ const Vision = () => {
                 </CardHeader>
                 <Divider />
                 <CardBody>
-                    <h1 className='text-md font-semibold' dangerouslySetInnerHTML={{ __html: description.replace(/\n/g, '<br>') }} />
+                    <h1 className='text-md font-semibold font-kanz' dangerouslySetInnerHTML={{ __html: description.replace(/\n/g, '<br>') }} />
                 </CardBody>
             </Card>
             <Divider />

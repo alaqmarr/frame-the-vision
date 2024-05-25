@@ -35,7 +35,7 @@ const formSchema = z.object({
 });
 
 const NewPost = () => {
-    const end = new Date("2024-05-18T23:59:59").getTime();
+    const end = new Date("2024-06-18T23:59:59").getTime();
     const start = new Date("2024-05-17T09:00:00").getTime();
     const user = useUser();
     const [imageURL, setImageURL] = useState("");
