@@ -21,7 +21,7 @@ export default function Home() {
     const [totalPosts, setTotalPosts] = useState(0)
     const [error, setError] = useState(false)
     const [timeRemaining, setTimeRemaining] = useState({ hours: 0, minutes: 0, seconds: 0 });
-    const end = new Date("2024-05-18T23:59:59").getTime();
+    const end = new Date("2024-05-28T23:59:59").getTime();
     const start = new Date("2024-05-17T09:00:00").getTime();
     const [pageReady, setPageReady] = useState(false)
     const [started, setStarted] = useState(false)
