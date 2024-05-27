@@ -69,7 +69,7 @@ const Register = () => {
         createUserWithEmailAndPassword(auth, values.email, values.password).then((userCredential) => {
             const user = userCredential.user
             toast.success(`Welcome ${user?.email}`)
-            router.push('/guide')
+            router.push('/')
         }
         ).catch((error) => {
             toast.error(error.message)

@@ -28,7 +28,7 @@ import {
 } from "@/components/icons";
 import Image from "next/image";
 import logo from "@/app/hsb-removebg-preview.png";
-import { Info, InfoIcon, PlusCircleIcon, Users, UsersIcon } from "lucide-react";
+import { Info, InfoIcon, PlusCircleIcon, Users, UsersIcon, VoteIcon } from "lucide-react";
 
 
 export const Navbar = () => {
@@ -50,7 +50,7 @@ export const Navbar = () => {
 								"data-[active=true]:text-primary data-[active=true]:font-medium"
 							)}
 							color="foreground"
-							href='/new-post'
+							href='/register'
 						>
 							<Button
 								className="text-sm font-normal text-default-600"
@@ -58,7 +58,7 @@ export const Navbar = () => {
 								variant="flat"
 								color="primary"
 							>
-								New Post
+								Register
 							</Button>
 						</NextLink>
 					</NavbarItem>
@@ -70,7 +70,7 @@ export const Navbar = () => {
 								"data-[active=true]:text-primary data-[active=true]:font-medium"
 							)}
 							color="foreground"
-							href='/guide'
+							href='/team'
 						>
 							<Button
 								className="text-sm font-normal text-default-600"
@@ -78,7 +78,7 @@ export const Navbar = () => {
 								variant="flat"
 								color="warning"
 							>
-								About
+								Team
 							</Button>
 						</NextLink>
 					</NavbarItem>
@@ -108,14 +108,14 @@ export const Navbar = () => {
 
 			<NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
 				<ThemeSwitch />
-				<Link href="/new-post">
-					<Button isIconOnly color='primary' aria-label="New Post">
+				<Link href="/register">
+					<Button isIconOnly color='primary' aria-label="Register">
 						<PlusCircleIcon />
 					</Button>
 				</Link>
-				<Link href="/guide">
+				<Link href="/team">
 					<Button isIconOnly color="warning" aria-label="Team">
-						<Info />
+						<UsersIcon />
 					</Button>
 				</Link>
 			</NavbarContent>
@@ -129,9 +129,9 @@ export const Navbar = () => {
 								"data-[active=true]:text-primary data-[active=true]:font-medium"
 							)}
 							color="foreground"
-							href='/new-post'
+							href='/register'
 						>
-							NEW POST
+							Register
 						</NextLink>
 					</NavbarItem>
 				</div>

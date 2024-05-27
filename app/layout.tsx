@@ -50,7 +50,7 @@ export default function RootLayout({
 							<Link
 								isExternal
 								className="flex flex-col items-center gap-1 text-current"
-								href="https://wa.me/919346763253"
+								href="https://alaqmar.tech"
 								title="The Web Sensei"
 							>
 								<span className="text-default-600">Developed by HSB Secunderabad.</span>
