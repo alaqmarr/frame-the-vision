@@ -1,4 +1,5 @@
 'use client'
+import UserLogin from '@/components/LoginComponent'
 import Unauthorized from '@/components/Unauthorized'
 import { useUser } from '@/lib/auth'
 import { app } from '@/lib/firebase'
@@ -61,9 +62,12 @@ const Dashboard = () => {
                 }, 2000)
             })
         }
-    })
-
-
+        else {
+            setTimeout(() => {
+                setLoading(false)
+            }, 2000)
+        }
+    }, [loggedIn, userId])
     if (loading) {
         return (
             <div className="flex flex-col items-center justify-center h-[70vh]">
@@ -81,7 +85,7 @@ const Dashboard = () => {
     }
 
     if (!loggedIn) {
-        return <h1>You are not logged in</h1>
+        return <UserLogin />
     }
 
     if (loggedIn && !isAdmin) {
@@ -90,50 +94,50 @@ const Dashboard = () => {
 
     return (
         <>
-        <div className='flex flex-row flex-wrap gap-y-3 items-center mb-6 justify-evenly'>
-        {analyticsCard}
-        </div>
-        <div className='flex flex-row flex-wrap gap-y-6 justify-evenly items-center'>
-            <Card className='w-[300px] flex flex-col items-center justify-center text-center'>
-                <CardBody className='w-full text-center items-center justify-center'>
-                    <h1>Tabular list of all registered users.</h1>
-                </CardBody>
-                <CardFooter className='flex flex-col items-center justify-center'>
-                    <Link href='/organisers-dashboard/users'>
-                        <Button color='primary' variant='flat'>
-                            View All Users
-                        </Button>
-                    </Link>
-                </CardFooter>
-            </Card>
+            <div className='flex flex-row flex-wrap gap-y-3 items-center mb-6 justify-evenly'>
+                {analyticsCard}
+            </div>
+            <div className='flex flex-row flex-wrap gap-y-6 justify-evenly items-center'>
+                <Card className='w-[300px] flex flex-col items-center justify-center text-center'>
+                    <CardBody className='w-full text-center items-center justify-center'>
+                        <h1>Tabular list of all registered users.</h1>
+                    </CardBody>
+                    <CardFooter className='flex flex-col items-center justify-center'>
+                        <Link href='/organisers-dashboard/users'>
+                            <Button color='primary' variant='flat'>
+                                View All Users
+                            </Button>
+                        </Link>
+                    </CardFooter>
+                </Card>
 
-            <Card className='w-[300px] flex flex-col items-center justify-center text-center'>
-                <CardBody className='w-full text-center items-center justify-center'>
-                    <h1>Tabular list of all admins.</h1>
-                </CardBody>
-                <CardFooter className='flex flex-col items-center justify-center'>
-                    <Link href='/organisers-dashboard/users/admins'>
-                        <Button color='primary' variant='flat'>
-                            View All Admins
-                        </Button>
-                    </Link>
-                </CardFooter>
-            </Card>
+                <Card className='w-[300px] flex flex-col items-center justify-center text-center'>
+                    <CardBody className='w-full text-center items-center justify-center'>
+                        <h1>Tabular list of all admins.</h1>
+                    </CardBody>
+                    <CardFooter className='flex flex-col items-center justify-center'>
+                        <Link href='/organisers-dashboard/users/admins'>
+                            <Button color='primary' variant='flat'>
+                                View All Admins
+                            </Button>
+                        </Link>
+                    </CardFooter>
+                </Card>
 
 
-            <Card className='w-[300px] flex flex-col items-center justify-center text-center'>
-                <CardBody className='w-full text-center items-center justify-center'>
-                    <h1>Review posts</h1>
-                </CardBody>
-                <CardFooter className='flex flex-col items-center justify-center'>
-                    <Link href='/organisers-dashboard/posts'>
-                        <Button color='primary' variant='flat'>
-                            Review a post to remove/archive
-                        </Button>
-                    </Link>
-                </CardFooter>
-            </Card>
-        </div>
+                <Card className='w-[300px] flex flex-col items-center justify-center text-center'>
+                    <CardBody className='w-full text-center items-center justify-center'>
+                        <h1>Review posts</h1>
+                    </CardBody>
+                    <CardFooter className='flex flex-col items-center justify-center'>
+                        <Link href='/organisers-dashboard/posts'>
+                            <Button color='primary' variant='flat'>
+                                Review a post to remove/archive
+                            </Button>
+                        </Link>
+                    </CardFooter>
+                </Card>
+            </div>
         </>
     )
 }

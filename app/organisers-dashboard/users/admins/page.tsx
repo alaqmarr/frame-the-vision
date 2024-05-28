@@ -1,4 +1,5 @@
 'use client'
+import UserLogin from '@/components/LoginComponent'
 import Unauthorized from '@/components/Unauthorized'
 import { useUser } from '@/lib/auth'
 import { app } from '@/lib/firebase'
@@ -127,7 +128,12 @@ const Admins = () => {
                 }, 2000)
             })
         }
-    }, [loggedIn])
+        else {
+            setTimeout(() => {
+                setLoading(false)
+            }, 2000)
+        }
+    }, [loggedIn, userId])
 
 
     useEffect(() => {
@@ -152,7 +158,7 @@ const Admins = () => {
     }
 
     if (!loggedIn) {
-        return <h1>You are not logged in</h1>
+        return <UserLogin />
     }
 
     if (loggedIn && !isAdmin) {
