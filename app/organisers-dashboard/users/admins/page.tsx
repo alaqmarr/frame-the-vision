@@ -13,7 +13,7 @@ import Link from 'next/link'
 import React, { ReactElement, useEffect, useState } from 'react'
 
 
-const Users = () => {
+const Admins = () => {
     const [userId, setUserId] = useState('')
     const [loading, setLoading] = useState(true)
     const [loggedIn, setLoggedIn] = useState(false)
@@ -55,7 +55,6 @@ const Users = () => {
             let allUsers: any = []
             const data = snapshot.val()
             for (const eachUser in data) {
-                count++
                 const name = data[eachUser].muminName
                 const instagram = data[eachUser].muminInstagramUsername
                 const phone = data[eachUser].muminMobile
@@ -63,41 +62,44 @@ const Users = () => {
                 const city = data[eachUser].muminCity
                 const userIsAdmin = data[eachUser].isAdmin || false
 
-                allUsers.push(
-                    <TableRow key={eachUser}>
-                        <TableCell>{name}</TableCell>
-                        <TableCell>{phone}</TableCell>
-                        <TableCell>{age}</TableCell>
-                        <TableCell>
-                            <Link href={`https://instagram.com/${instagram}`}>
-                                {instagram}
-                            </Link>
-                        </TableCell>
-                        <TableCell>{city}</TableCell>
-                        <TableCell>
-                            {
-                                userIsAdmin ?
-                                    <Button
-                                        isIconOnly
-                                        color='danger'
-                                        variant='flat'
-                                        onClick={() => demoteUser(eachUser)}
-                                    >
-                                        <ShieldClose />
-                                    </Button>
-                                    :
-                                    <Button
-                                        isIconOnly
-                                        color='secondary'
-                                        variant='flat'
-                                        onClick={() => promoteUser(eachUser)}
-                                    >
-                                        <ShieldPlus />
-                                    </Button>
-                            }
-                        </TableCell>
-                    </TableRow>
-                )
+                if (userIsAdmin) {
+                    count++
+                    allUsers.push(
+                        <TableRow key={eachUser}>
+                            <TableCell>{name}</TableCell>
+                            <TableCell>{phone}</TableCell>
+                            <TableCell>{age}</TableCell>
+                            <TableCell>
+                                <Link href={`https://instagram.com/${instagram}`}>
+                                    {instagram}
+                                </Link>
+                            </TableCell>
+                            <TableCell>{city}</TableCell>
+                            <TableCell>
+                                {
+                                    userIsAdmin ?
+                                        <Button
+                                            isIconOnly
+                                            color='danger'
+                                            variant='flat'
+                                            onClick={() => demoteUser(eachUser)}
+                                        >
+                                            <ShieldClose />
+                                        </Button>
+                                        :
+                                        <Button
+                                            isIconOnly
+                                            color='secondary'
+                                            variant='flat'
+                                            onClick={() => promoteUser(eachUser)}
+                                        >
+                                            <ShieldPlus />
+                                        </Button>
+                                }
+                            </TableCell>
+                        </TableRow>
+                    )
+                }
                 setUsersCount(count)
 
             }
@@ -165,7 +167,7 @@ const Users = () => {
                         color="primary"
                         variant="flat"
                     >
-                        <ArrowBigLeftDash/> Back to Dashboard
+                        <ArrowBigLeftDash /> Back to Dashboard
                     </Button>
                 </Link>
                 <Table aria-label="Users Table">
@@ -198,4 +200,4 @@ const Users = () => {
     }
 }
 
-export default Users
+export default Admins

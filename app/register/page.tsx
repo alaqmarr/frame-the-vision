@@ -31,6 +31,8 @@ import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth'
 import { app } from '@/lib/firebase'
 import { Spinner } from '@nextui-org/spinner'
 import { Divider } from '@nextui-org/divider'
+import { get, getDatabase, ref, set } from 'firebase/database'
+import { updateAnalytics } from '@/lib/analytics'
 
 const formSchema = z.object({
     email: z.string().email(),
@@ -42,6 +44,10 @@ const Register = () => {
     const [signUpEligible, setSignUpEligible] = useState(false)
     const user = useUser()
     const router = useRouter()
+
+    useEffect(() => {
+        updateAnalytics();
+    }, []);
     useEffect(() => {
         if (user) {
             router.push('/guide')

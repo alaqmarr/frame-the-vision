@@ -9,13 +9,30 @@ import { Spinner } from "@nextui-org/spinner";
 import { Divider } from "@nextui-org/divider";
 import toast from "react-hot-toast";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { AlertCircle } from "lucide-react";
 import { useUser } from "@/lib/auth";
 import { Code } from "@nextui-org/code";
 
 export default function Home() {
     const router = useRouter();
+    const updateAnalytics = async () => {
+        const database = getDatabase(app);
+        const path = window.location.pathname
+        const analyticsRef = ref(database, `frame-the-vision/analytics/home`);
+        const snapshot = await get(analyticsRef);
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            set(analyticsRef, data + 1);
+        } else {
+            set(analyticsRef, 1);
+        }
+
+    }
+
+    useEffect(() => {
+        updateAnalytics();
+    }, []);
     const [loading, setLoading] = useState(true);
     const [totalPosts, setTotalPosts] = useState(0);
     const [error, setError] = useState(false);

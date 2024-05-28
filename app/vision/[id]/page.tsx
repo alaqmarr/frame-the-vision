@@ -1,5 +1,6 @@
 'use client'
 import { HeartFilledIcon } from '@/components/icons'
+import { updateAnalytics } from '@/lib/analytics'
 import { useUser } from '@/lib/auth'
 import { app } from '@/lib/firebase'
 import { Button } from '@nextui-org/button'
@@ -31,7 +32,9 @@ const Vision = () => {
     const urlPrams = useParams()
     const id = urlPrams.id
     const user = useUser()
-
+    useEffect(() => {
+        updateAnalytics();
+    }, []);
     function likePost() {
         const database = getDatabase(app)
         const likedByNode = ref(database, `frame-the-vision/posts/${id}/likedBy/${userId}`)

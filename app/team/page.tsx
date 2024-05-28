@@ -21,12 +21,14 @@ import batul from '@/app/team/batul.jpg'
 import naqiya from '@/app/team/naqiya.jpg'
 import quillquest from '@/app/team/quillquest.jpg'
 import tws from '@/app/team/thewebsensei.jpg'
+import { updateAnalytics } from '@/lib/analytics'
 
 export const metadata: Metadata = {
   title: 'Organising Team | Frame The Vision'
 };
 
 const Team = () => {
+  
   return (
     <>
       <div className='w-full flex flex-col items-center justify-center mb-3'>
