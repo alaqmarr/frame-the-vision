@@ -8,7 +8,7 @@ import { Divider } from '@nextui-org/divider'
 import { Spinner } from '@nextui-org/spinner'
 import { get, getDatabase, ref, set } from 'firebase/database'
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 
 
 const Dashboard = () => {
@@ -18,6 +18,7 @@ const Dashboard = () => {
     const [isAdmin, setIsAdmin] = useState(false)
     const db = getDatabase(app)
     const user = useUser()
+    const [analyticsCard, setAnalyticsCard] = useState<ReactElement<any>[]>([])
 
     useEffect(() => {
         if (user) {
@@ -25,6 +26,27 @@ const Dashboard = () => {
             setLoggedIn(true)
         }
     }, [user])
+
+    useEffect(() => {
+        const node = ref(db, `frame-the-vision/analytics`)
+        get(node).then((snapshot) => {
+            if (snapshot.exists()) {
+                const data = snapshot.val()
+                setAnalyticsCard(Object.keys(data).map((key) => {
+                    return (
+                        <Card key={key} className='w-[150px] flex flex-col items-center justify-center text-center'>
+                            <CardHeader className='w-full text-center items-center justify-center'>
+                                <h1 className='uppercase text-blue-500 font-bold'>{key}</h1>
+                            </CardHeader>
+                            <CardBody className='w-full text-center items-center justify-center'>
+                                <h1 className='text-lg font-bold'>{data[key]} visits</h1>
+                            </CardBody>
+                        </Card>
+                    )
+                }))
+            }
+        })
+    }, [])
 
     useEffect(() => {
         if (loggedIn) {
@@ -67,6 +89,10 @@ const Dashboard = () => {
     }
 
     return (
+        <>
+        <div className='flex flex-row flex-wrap gap-y-3 items-center mb-6 justify-evenly'>
+        {analyticsCard}
+        </div>
         <div className='flex flex-row flex-wrap gap-y-6 justify-evenly items-center'>
             <Card className='w-[300px] flex flex-col items-center justify-center text-center'>
                 <CardBody className='w-full text-center items-center justify-center'>
@@ -108,6 +134,7 @@ const Dashboard = () => {
                 </CardFooter>
             </Card>
         </div>
+        </>
     )
 }
 
