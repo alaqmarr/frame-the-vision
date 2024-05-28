@@ -139,9 +139,11 @@ export default function Home() {
                             <Separator className="w-full" />
                             <h1 className="font-bold uppercase text-blue-800">
                                 In Frame the Vision, the stage is set for photographers and wordsmiths to collide, crafting tales that linger in the mind long after the image fades.
-                                We all together join pens & lense to pay tribute to the profound legacy of Imam Hussain A.S.
-
-                                Will your entry unveil the untold, leaving audiences on the edge of their seats?
+                                <br />
+                                We together join pens & lens to pay tribute to the profound legacy of Imam Hussain A.S.
+                                <br />
+                                <br />
+                                Will your entry unveil the untold, leaving audiences on the edge of their seats?
                             </h1>
                         </CardBody>
                     </Card>
