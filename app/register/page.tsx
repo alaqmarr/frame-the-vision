@@ -50,7 +50,7 @@ const Register = () => {
     }, []);
     useEffect(() => {
         if (user) {
-            router.push('/guide')
+            router.push('/')
         } else {
             setTimeout(() => {
                 setLoading(false)
