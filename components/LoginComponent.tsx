@@ -98,13 +98,13 @@ const UserLogin = () => {
                     </form>
                 </Form>
             </CardBody>
-            <CardFooter>
+            {/* <CardFooter>
                 <Link href={'/register'} className="w-full">
                 <Button color="primary" variant={'flat'} className="w-full">
                     Not Enrolled? Enroll Now!
                 </Button>
                 </Link>
-            </CardFooter>
+            </CardFooter> */}
         </Card>
         </section>
     )
