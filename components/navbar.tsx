@@ -74,7 +74,7 @@ export const Navbar = () => {
 						>
 							<Button
 								className="text-sm font-normal text-default-600"
-								startContent={<InfoIcon className="text-danger" />}
+								startContent={<UsersIcon className="text-danger" />}
 								variant="flat"
 								color="warning"
 							>

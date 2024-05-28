@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import { Button } from '@nextui-org/button'
 import { Card, CardBody, CardFooter, CardHeader } from '@nextui-org/card'
 import { Image } from '@nextui-org/image'
-import { GithubIcon, Globe, HeartIcon, InstagramIcon, Link2Icon, LinkedinIcon, PauseCircleIcon, ShuffleIcon, TwitterIcon } from 'lucide-react'
+import { GithubIcon, Globe, HeartIcon, InstagramIcon, Link2, Link2Icon, LinkedinIcon, PauseCircleIcon, ShuffleIcon, TwitterIcon } from 'lucide-react'
 import React from 'react'
 import alaqmar from '@/app/team/alaqmar.jpg'
 import { SocialIcon } from 'react-social-icons'
@@ -19,6 +19,8 @@ import aliasgar from '@/app/team/aliasgar.jpg'
 import hsb from '@/app/team/hsb-removebg-preview.png'
 import batul from '@/app/team/batul.jpg'
 import naqiya from '@/app/team/naqiya.jpg'
+import quillquest from '@/app/team/quillquest.jpg'
+import tws from '@/app/team/thewebsensei.jpg'
 
 export const metadata: Metadata = {
   title: 'Organising Team | Frame The Vision'
@@ -44,7 +46,7 @@ const Team = () => {
           </CardHeader>
           <Divider />
           <CardBody>
-            <p>Frame the Vision competition is brought to you by HSB Secunderabad.<br />You can appreciate our efforts by following our handle on Instagram.</p>
+            <p>Frame the Vision competition is brought to you by HSB Secunderabad.<br />Follow us on Instagram for more Updates!</p>
           </CardBody>
           <Divider />
           <CardFooter className='flex flex-col w-full items-center justify-center'>
@@ -58,7 +60,7 @@ const Team = () => {
         </Card>
       </div>
       <Divider className='mb-3' />
-      <section className='flex flex-row items-center justify-around gap-y-3 flex-wrap'>
+      <section className='flex flex-row items-center justify-around gap-y-3 flex-wrap mb-5'>
         <Card isFooterBlurred className="min-w-[300px] max-w-[350px] h-[300px] col-span-12 sm:col-span-7" isHoverable={true}>
           <CardHeader className="absolute z-10 flex-col items-start">
             <Chip color='warning' size='md' className='shadow-md'>
@@ -220,8 +222,8 @@ const Team = () => {
 
         <Card isFooterBlurred className="min-w-[300px] max-w-[350px] h-[300px] col-span-12 sm:col-span-7" isHoverable={true}>
           <CardHeader className="absolute z-10 flex-col items-start">
-            <Chip color='danger' size='md' className='shadow-md'>
-              <p className="uppercase font-bold">creative team member</p>
+            <Chip color='danger' size='sm' className='shadow-md'>
+              <p className="uppercase font-bold text-xs">Media Team Lead | Creative Team member</p>
             </Chip>
           </CardHeader>
           <Image
@@ -312,6 +314,61 @@ const Team = () => {
 
 
       </section>
+      <div className='w-full flex flex-col items-center justify-center mb-3'>
+        <Card className="w-[350px]">
+          <CardHeader className="flex gap-3">
+            <Image
+              alt="quillquest"
+              height={40}
+              radius="sm"
+              src={quillquest.src}
+              width={40}
+            />
+            <div className="flex flex-col">
+              <p className="text-md">Quill Quest</p>
+              <p className="text-small text-default-500">CONTENT & MEDIA Partner</p>
+            </div>
+          </CardHeader>
+          <Divider />
+          <Divider />
+          <CardFooter className='flex flex-col w-full items-center justify-center'>
+            <Link href={'https://instagram.com/_.quillquest._'}>
+              <Button color='danger' variant='flat'>
+                <InstagramIcon size={20} />
+                Follow Quill Quest
+              </Button>
+            </Link>
+          </CardFooter>
+        </Card>
+      </div>
+
+      <div className='w-full flex flex-col items-center justify-center mb-3'>
+        <Card className="w-[350px]">
+          <CardHeader className="flex gap-3">
+            <Image
+              alt="The Web Sensei"
+              height={40}
+              radius="sm"
+              src={tws.src}
+              width={40}
+            />
+            <div className="flex flex-col">
+              <p className="text-md">The Web Sensei</p>
+              <p className="text-small text-default-500">WEBSITE DEVELOPMENT</p>
+            </div>
+          </CardHeader>
+          <Divider />
+          <Divider />
+          <CardFooter className='flex flex-col w-full items-center justify-center'>
+            <Link href={'https://alaqmar.tech'}>
+              <Button color='warning' variant='flat'>
+                <Globe size={20} />
+                Visit Website
+              </Button>
+            </Link>
+          </CardFooter>
+        </Card>
+      </div>
     </>
   )
 }
