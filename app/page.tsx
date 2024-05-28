@@ -127,7 +127,7 @@ export default function Home() {
                         <CardHeader className="flex flex-col items-center justify-center">
                             <h3 className="flex items-center text-red-600 font-bold">
                                 <AlertCircle className="mr-3" />
-                                {started ? `Frame the Vision Competition is live! 🎉` : `FRAME THE VISION COMPETITION WILL BEGIN ON 7th JULY, 2024.! 🕰️`}
+                                {started ? `Frame the Vision Competition is live! 🎉` : `FRAME THE VISION COMPETITION WILL BEGIN ON 7th JUNE, 2024.! 🕰️`}
                             </h3>
                         </CardHeader>
                         <Divider />
