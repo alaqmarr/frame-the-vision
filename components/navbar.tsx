@@ -70,15 +70,15 @@ export const Navbar = () => {
 								"data-[active=true]:text-primary data-[active=true]:font-medium"
 							)}
 							color="foreground"
-							href='/team'
+							href='/guide'
 						>
 							<Button
 								className="text-sm font-normal text-default-600"
-								startContent={<UsersIcon className="text-danger" />}
+								startContent={<InfoIcon className="text-danger" />}
 								variant="flat"
 								color="warning"
 							>
-								Team
+								Guide
 							</Button>
 						</NextLink>
 					</NavbarItem>
@@ -113,9 +113,9 @@ export const Navbar = () => {
 						<PlusCircleIcon />
 					</Button>
 				</Link> */}
-				<Link href="/team">
+				<Link href="/guide">
 					<Button isIconOnly color="warning" aria-label="Team">
-						<UsersIcon />
+						<InfoIcon />
 					</Button>
 				</Link>
 			</NavbarContent>
