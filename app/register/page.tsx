@@ -50,7 +50,7 @@ const Register = () => {
     }, []);
     useEffect(() => {
         if (user) {
-            router.push('/')
+            router.push('/guide')
         } else {
             setTimeout(() => {
                 setLoading(false)
@@ -75,7 +75,7 @@ const Register = () => {
         createUserWithEmailAndPassword(auth, values.email, values.password).then((userCredential) => {
             const user = userCredential.user
             toast.success(`Welcome ${user?.email}`)
-            router.push('/')
+            router.push('/guide')
         }
         ).catch((error) => {
             toast.error(error.message)
