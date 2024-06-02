@@ -13,6 +13,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { AlertCircle } from "lucide-react";
 import { useUser } from "@/lib/auth";
 import { Code } from "@nextui-org/code";
+import ExamplePosts from "./example-posts/page";
 
 export default function Home() {
     const router = useRouter();
@@ -122,7 +123,7 @@ export default function Home() {
     return (
         <>
             {pageReady && (
-                <div className="mb-3 flex flex-col h-[500px] items-center justify-center">
+                <div className="mb-3 flex flex-col items-center justify-center">
                     <Card className="w-full">
                         <CardHeader className="flex flex-col items-center justify-center">
                             <h3 className="flex items-center text-red-600 font-bold">
@@ -149,6 +150,7 @@ export default function Home() {
                     </Card>
                 </div>
             )}
+            <ExamplePosts/>
         </>
     );
 }
