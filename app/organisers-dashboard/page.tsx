@@ -29,25 +29,45 @@ const Dashboard = () => {
     }, [user])
 
     useEffect(() => {
-        const node = ref(db, `frame-the-vision/analytics`)
+        const node = ref(db, 'frame-the-vision/analytics');
         get(node).then((snapshot) => {
             if (snapshot.exists()) {
-                const data = snapshot.val()
-                setAnalyticsCard(Object.keys(data).map((key) => {
-                    return (
-                        <Card key={key} className='w-[150px] flex flex-col items-center justify-center text-center'>
-                            <CardHeader className='w-full text-center items-center justify-center'>
-                                <h1 className='uppercase text-blue-500 font-bold'>{key}</h1>
-                            </CardHeader>
-                            <CardBody className='w-full text-center items-center justify-center'>
-                                <h1 className='text-lg font-bold'>{data[key]} visits</h1>
-                            </CardBody>
-                        </Card>
-                    )
-                }))
+                const data = snapshot.val();
+                setAnalyticsCard(processData(data));
             }
-        })
-    }, [])
+        });
+    }, []);
+
+    const processData = (data:any, parentKey = '') => {
+        return Object.keys(data).map((key) => {
+            const fullKey = parentKey ? `${parentKey}/${key}` : key;
+            const value = data[key];
+
+            if (typeof value === 'object' && !Array.isArray(value)) {
+                return (
+                    <div key={fullKey} className='w-full flex flex-col items-center justify-center text-center'>
+                        <h2 className='uppercase text-blue-500 font-bold text-sm'>{fullKey}</h2>
+                        <div className='flex flex-wrap'>
+                            {processData(value, fullKey)}
+                        </div>
+                    </div>
+                );
+            }
+
+            return (
+                <Card key={fullKey} className='w-[150px] flex flex-col items-center justify-center text-center'>
+                    <CardHeader className='w-full text-center items-center justify-center'>
+                        <Link href={fullKey === 'home' ? `/` : `/${fullKey}`}>
+                        <h1 className='uppercase text-blue-500 font-bold text-sm'>{fullKey}</h1>
+                        </Link>
+                    </CardHeader>
+                    <CardBody className='w-full text-center items-center justify-center'>
+                        <h1 className='text-lg font-bold'>{value} visits</h1>
+                    </CardBody>
+                </Card>
+            );
+        });
+    };
 
     useEffect(() => {
         if (loggedIn) {
