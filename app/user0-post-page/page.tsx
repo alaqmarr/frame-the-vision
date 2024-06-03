@@ -35,7 +35,7 @@ const formSchema = z.object({
 });
 
 const NewPost = () => {
-    const end = new Date("2024-06-02T16:59:59").getTime();
+    const end = new Date("2024-06-03T18:59:59").getTime();
     const start = new Date("2024-05-02T09:00:00").getTime();
     const user = useUser();
     const [imageURL, setImageURL] = useState("");
@@ -206,7 +206,7 @@ const NewPost = () => {
         const userPostRef = ref(database, `frame-the-vision/users/${userID}/examplePost/${id}`);
         await set(userPostRef, true).then(() => {
             set(postsRef, data).then(() => {
-                const shareableURL = `https://ftv.hsbsecunderabad.com/vision/${id}`;
+                const shareableURL = `https://ftv.hsbsecunderabad.com/example-vision/${id}`;
                 setSharebaleUrl(shareableURL);
             }).finally(() => {
                 setPosted(true);
