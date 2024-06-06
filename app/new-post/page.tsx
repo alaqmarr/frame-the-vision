@@ -519,7 +519,7 @@ const NewPost = () => {
                           )}
                         />
                         <Checkbox isSelected={isSelected} onValueChange={setIsSelected}>
-                          I agree that HSB Secunderabad is authorised to delete or modify my post.
+                        I acknowledge that I have neither enhanced, edited, nor downloaded the photograph, and have not copied the content from the internet. If such actions are discovered, HSB Secunderabad reserves the right to disqualify my entry.
                         </Checkbox>
                         {
                           isSelected ?
