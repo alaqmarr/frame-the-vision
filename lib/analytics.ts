@@ -12,7 +12,7 @@ const updateAnalytics = async () => {
         } 
 
         sessionStorage.setItem(path, 'true');
-        const analyticsRef = ref(database, `frame-the-vision/analytics${path}`);
+        const analyticsRef = ref(database, `frame-the-vision/analytics/${path}`);
         const snapshot = await get(analyticsRef);
 
         if (snapshot.exists()) {
