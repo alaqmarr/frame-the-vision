@@ -70,7 +70,7 @@ export default function Home() {
 
                     posts.push(
                         <Card className="py-4 w-[400px]" isHoverable key={postId} id={postId}>
-                            <Link href={`/vision/${postId}`}>
+                            <Link href={`/vision/${postId}`} target="_blank">
                                 <CardHeader className="overflow-visible py-2 flex flex-col items-center justify-center">
                                     <Image
                                         alt={postId}
