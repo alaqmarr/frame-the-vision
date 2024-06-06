@@ -50,7 +50,7 @@ export const Navbar = () => {
 								"data-[active=true]:text-primary data-[active=true]:font-medium"
 							)}
 							color="foreground"
-							href='/reg'
+							href='/new-post'
 						>
 							<Button
 								className="text-sm font-normal text-default-600"
@@ -58,7 +58,7 @@ export const Navbar = () => {
 								variant="flat"
 								color="primary"
 							>
-								Register
+								New Post
 							</Button>
 						</NextLink>
 					</NavbarItem>
@@ -108,8 +108,8 @@ export const Navbar = () => {
 
 			<NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
 				<ThemeSwitch />
-				<Link href="/reg">
-					<Button isIconOnly color='primary' aria-label="Register">
+				<Link href="/new-post">
+					<Button isIconOnly color='primary' aria-label="New Post">
 						<PlusCircleIcon />
 					</Button>
 				</Link>
@@ -129,9 +129,9 @@ export const Navbar = () => {
 								"data-[active=true]:text-primary data-[active=true]:font-medium"
 							)}
 							color="foreground"
-							href='/reg'
+							href='/new-post'
 						>
-							Register
+							New Post
 						</NextLink>
 					</NavbarItem>
 				</div>
