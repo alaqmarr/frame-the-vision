@@ -9,7 +9,7 @@ const updateAnalytics = async () => {
 
         if (isPathVisited) {
             return;
-        } 
+        }
 
         sessionStorage.setItem(path, 'true');
         const analyticsRef = ref(database, `frame-the-vision/analytics/${path}`);
