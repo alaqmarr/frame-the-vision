@@ -16,6 +16,30 @@ import { Code } from "@nextui-org/code";
 import ExamplePosts from "./example-posts/page";
 
 export default function Home() {
+    const updateAnalytics = async () => {
+        try {
+            const database = getDatabase(app);
+            const path = 'home';
+            const isPathVisited = sessionStorage.getItem(path);
+
+            if (isPathVisited) {
+                return;
+            }
+
+            sessionStorage.setItem(path, 'true');
+            const analyticsRef = ref(database, `frame-the-vision/analytics/${path}`);
+            const snapshot = await get(analyticsRef);
+
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                await set(analyticsRef, data + 1);
+            } else {
+                await set(analyticsRef, 1);
+            }
+        } catch (error) {
+            console.error("Failed to update analytics:", error);
+        }
+    };
     const router = useRouter();
     const [postsArea, setPostsArea] = useState<ReactElement<any>[]>();
     const [loading, setLoading] = useState(true);
@@ -31,6 +55,9 @@ export default function Home() {
 
     const user = useUser();
 
+    useEffect(() => {
+        updateAnalytics();
+    }, []);
     useEffect(() => {
         if (user) {
             setUserId(user.uid);
@@ -301,9 +328,9 @@ export default function Home() {
                     )
             }
 
-            <Separator className="mt-3 mb-3"/>
+            <Separator className="mt-3 mb-3" />
 
-            <ExamplePosts/>
+            <ExamplePosts />
         </>
     );
 }
