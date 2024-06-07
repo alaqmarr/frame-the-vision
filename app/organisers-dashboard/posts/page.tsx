@@ -45,7 +45,7 @@ const Posts = () => {
   const getPosts = async () => {
     setPosts([])
     const postsRef = ref(db, 'frame-the-vision/posts')
-    let postsBlock = []
+    let postsBlock:any = []
 
     get(postsRef).then((snap) => {
       const allPosts = snap.val()
