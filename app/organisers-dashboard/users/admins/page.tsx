@@ -9,7 +9,7 @@ import { Divider } from '@nextui-org/divider'
 import { Spinner } from '@nextui-org/spinner'
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/table'
 import { get, getDatabase, ref, remove, set } from 'firebase/database'
-import { ArrowBigLeftDash, InstagramIcon, ShieldCheck, ShieldClose, ShieldPlus } from 'lucide-react'
+import { ArrowBigLeftDash, CheckCheckIcon, InstagramIcon, ShieldCheck, ShieldClose, ShieldPlus } from 'lucide-react'
 import Link from 'next/link'
 import React, { ReactElement, useEffect, useState } from 'react'
 
@@ -48,6 +48,30 @@ const Admins = () => {
         })
     }
 
+    function promotePhotographyJudge(userId: string) {
+        const adminNode = ref(db, `frame-the-vision/users/${userId}/isJudge`)
+        const userNode = ref(db, `frame-the-vision/users/${userId}/judgeType`)
+        set(adminNode, true).then(() => {
+            set(userNode, 'photography').then(() => {
+                setUsers([])
+            })
+        }).finally(() => {
+            getUsers()
+        })
+    }
+
+    function promoteContentJudge(userId: string) {
+        const adminNode = ref(db, `frame-the-vision/users/${userId}/isJudge`)
+        const userNode = ref(db, `frame-the-vision/users/${userId}/judgeType`)
+        set(adminNode, true).then(() => {
+            set(userNode, 'content').then(() => {
+                setUsers([])
+            })
+        }).finally(() => {
+            getUsers()
+        })
+    }
+
     async function getUsers() {
         setUsers([])
         const usersNode = ref(db, `frame-the-vision/users`)
@@ -62,41 +86,69 @@ const Admins = () => {
                 const age = data[eachUser].muminAge
                 const city = data[eachUser].muminCity
                 const userIsAdmin = data[eachUser].isAdmin || false
+                const userIsJudge = data[eachUser].isJudge || false
 
                 if (userIsAdmin) {
                     count++
                     allUsers.push(
                         <TableRow key={eachUser}>
                             <TableCell>{name}</TableCell>
-                            <TableCell>{phone}</TableCell>
-                            <TableCell>{age}</TableCell>
                             <TableCell>
-                                <Link href={`https://instagram.com/${instagram}`}>
-                                    {instagram}
-                                </Link>
-                            </TableCell>
-                            <TableCell>{city}</TableCell>
-                            <TableCell>
-                                {
-                                    userIsAdmin ?
-                                        <Button
-                                            isIconOnly
-                                            color='danger'
-                                            variant='flat'
-                                            onClick={() => demoteUser(eachUser)}
-                                        >
-                                            <ShieldClose />
-                                        </Button>
-                                        :
-                                        <Button
-                                            isIconOnly
-                                            color='secondary'
-                                            variant='flat'
-                                            onClick={() => promoteUser(eachUser)}
-                                        >
-                                            <ShieldPlus />
-                                        </Button>
-                                }
+                                <div className='flex flex-col items-center justify-center'>
+                                    {
+                                        userIsAdmin ?
+                                            <Button
+                                                isIconOnly
+                                                color='danger'
+                                                variant='flat'
+                                                onClick={() => demoteUser(eachUser)}
+                                            >
+                                                <ShieldClose />
+                                            </Button>
+                                            :
+                                            <Button
+                                                isIconOnly
+                                                color='secondary'
+                                                variant='flat'
+                                                onClick={() => promoteUser(eachUser)}
+                                            >
+                                                <ShieldPlus />
+                                            </Button>
+                                    }
+
+                                    {
+                                        userIsJudge ?
+                                            (<Button
+                                                isIconOnly
+                                                color='success'
+                                                variant='flat'
+                                            >
+                                                <CheckCheckIcon />
+                                            </Button>)
+                                            :
+                                            (
+                                                <div className='flex flex-col items-center justify-center'>
+                                                    <Button
+                                                        className='mt-2 mb-2'
+                                                        color='secondary'
+                                                        variant='flat'
+                                                        onClick={() => promotePhotographyJudge(eachUser)}
+                                                    >
+                                                        Photography Judge
+                                                    </Button>
+                                                    <Button
+                                                        className='mt-2 mb-2'
+                                                        color='secondary'
+                                                        variant='flat'
+                                                        onClick={() => promoteContentJudge(eachUser)}
+                                                    >
+                                                        Content Judge
+                                                    </Button>
+                                                </div>
+                                            )
+
+                                    }
+                                </div>
                             </TableCell>
                         </TableRow>
                     )
@@ -180,18 +232,6 @@ const Admins = () => {
                     <TableHeader>
                         <TableColumn>
                             Name
-                        </TableColumn>
-                        <TableColumn>
-                            Phone
-                        </TableColumn>
-                        <TableColumn>
-                            Age
-                        </TableColumn>
-                        <TableColumn>
-                            Instagram
-                        </TableColumn>
-                        <TableColumn>
-                            City
                         </TableColumn>
                         <TableColumn>
                             Actions
