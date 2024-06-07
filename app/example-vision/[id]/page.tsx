@@ -164,12 +164,12 @@ const Vision = () => {
                         {new Date(date).toLocaleString()}
                     </Code>
                 </h4>
-                <Divider />
+                {/* <Divider />
                 <Link href={`https://instagram.com/${instagramUsername}`}>
                     <Button color='danger' variant={'flat'} className='font-bold uppercase'>
                         <InstagramIcon />Follow <strong className='text-blue-500'>{author}</strong>
                     </Button>
-                </Link>
+                </Link> */}
             </div>
             <Divider className='mt-3 mb-3' />
             <Card className='flex flex-col w-full'>

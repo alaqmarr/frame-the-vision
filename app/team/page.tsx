@@ -35,7 +35,7 @@ const Team = () => {
         <Card className="max-w-[400px]">
           <CardHeader className="flex gap-3">
             <Image
-              alt="nextui logo"
+              alt="HSB Secunderabad"
               height={40}
               radius="sm"
               src={hsb.src}
@@ -62,7 +62,7 @@ const Team = () => {
         </Card>
       </div>
       <Divider className='mb-3' />
-      <section className='flex flex-row items-center justify-around gap-y-3 flex-wrap mb-5'>
+      {/* <section className='flex flex-row items-center justify-around gap-y-3 flex-wrap mb-5'>
         <Card isFooterBlurred className="min-w-[300px] max-w-[350px] h-[300px] col-span-12 sm:col-span-7" isHoverable={true}>
           <CardHeader className="absolute z-10 flex-col items-start">
             <Chip color='warning' size='md' className='shadow-md'>
@@ -315,7 +315,7 @@ const Team = () => {
 
 
 
-      </section>
+      </section> */}
       <div className='w-full flex flex-col items-center justify-center mb-3'>
         <Card className="w-[350px]">
           <CardHeader className="flex gap-3">
