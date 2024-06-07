@@ -64,7 +64,7 @@ const JudgePost = () => {
                 const postsRef = ref(db, 'frame-the-vision/posts')
                 const snap = await get(postsRef)
                 const allPosts = snap.val()
-                const postsBlock = []
+                const postsBlock:any = []
 
                 for (const post in allPosts) {
                     const transactionCheck = ref(db, `frame-the-vision/posts/${post}/transaction/${userId}`)
