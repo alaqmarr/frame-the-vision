@@ -20,13 +20,13 @@ export default function Home() {
         try {
             const database = getDatabase(app);
             const path = 'home';
-            const isPathVisited = sessionStorage.getItem(path);
+            const isPathVisited = localStorage.getItem(path);
 
             if (isPathVisited) {
                 return;
             }
 
-            sessionStorage.setItem(path, 'true');
+            localStorage.setItem(path, 'true');
             const analyticsRef = ref(database, `frame-the-vision/analytics/${path}`);
             const snapshot = await get(analyticsRef);
 
