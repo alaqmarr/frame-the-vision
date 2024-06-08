@@ -273,11 +273,6 @@ export default function Home() {
                                 <Divider />
                                 <CardBody className="flex gap-y-3 w-full text-center">
                                     <Separator className="w-full" />
-                                    {
-                                        started && `
-                                ${totalPosts} people have already participated! 🎉
-                                `
-                                    }
                                     <h4 className="text-center text-xl font-bold text-primary-500">{formatTime(timeRemaining.hours)} Hours {formatTime(timeRemaining.minutes)} Minutes {formatTime(timeRemaining.seconds)} Seconds</h4>
                                     <Separator className="w-full" />
                                 </CardBody>
