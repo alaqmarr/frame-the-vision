@@ -163,12 +163,12 @@ const Dashboard = () => {
                     userJudge && (
                         <Card className='w-[300px] flex flex-col items-center justify-center text-center'>
                             <CardBody className='w-full text-center items-center justify-center'>
-                                <h1>Review posts</h1>
+                                <h1>JUDGE POSTS</h1>
                             </CardBody>
                             <CardFooter className='flex flex-col items-center justify-center'>
                                 <Link href='/judge-post' target='_blank'>
                                     <Button color='secondary' variant='flat'>
-                                        Review a post to remove/archive
+                                        Judge Posts
                                     </Button>
                                 </Link>
                             </CardFooter>
