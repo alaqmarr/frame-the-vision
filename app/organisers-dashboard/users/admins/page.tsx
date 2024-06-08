@@ -185,9 +185,9 @@ const Admins = () => {
                                                     className='mt-1 mb-1'
                                                     color='danger'
                                                     variant='flat'
-                                                    isDisabled
+                                                    onClick={() => alert('You are not authorised for this action.')}
                                                 >
-                                                    <ShieldBan /> Demote from Super User
+                                                    <ShieldBan /> Demote from Super Admin
                                                 </Button>)
                                                 :
                                                 (
@@ -196,7 +196,7 @@ const Admins = () => {
                                                         variant='flat'
                                                         onClick={() => promoteToSuperUser(eachUser)}
                                                     >
-                                                        Promote to Super User
+                                                        Promote to Super Admin
                                                     </Button>
                                                 )
 
