@@ -30,7 +30,6 @@ const formSchema = z.object({
     message: "Please provide a valid URL.",
   }),
   postedOn: z.string(),
-  title: z.string(),
   Description: z.string(),
   topicId: z.string()
 });
@@ -176,7 +175,6 @@ const NewPost = () => {
     defaultValues: {
       image: '',
       postedOn: new Date().toISOString(),
-      title: '',
       Description: '',
       topicId: ''
     },
@@ -187,7 +185,6 @@ const NewPost = () => {
     setSubmitting(true);
     const imageUrl = values.image;
     const postedOn = values.postedOn;
-    const title = values.title;
     const Description = values.Description;
     const topicId = values.topicId
 
@@ -197,7 +194,6 @@ const NewPost = () => {
       author: userName,
       imageUrl: imageUrl,
       postedOn: postedOn,
-      name: title,
       Description: Description,
       user: userID,
       topicId: topicId
@@ -435,19 +431,6 @@ const NewPost = () => {
                                   </ModalContent>
                                 </Modal>
                               </FormDescription>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="title"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Post Title</FormLabel>
-                              <FormControl>
-                                <Input placeholder='Initiative by HSB Secunderabad' {...field} isRequired />
-                              </FormControl>
                               <FormMessage />
                             </FormItem>
                           )}

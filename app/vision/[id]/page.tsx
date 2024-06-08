@@ -55,7 +55,7 @@ const Vision = () => {
         })
     }
 
-    function dislike(){
+    function dislike() {
         const database = getDatabase(app)
         const likedByNode = ref(database, `frame-the-vision/posts/${id}/likedBy/${userId}`)
         setLiked(false)
@@ -73,15 +73,22 @@ const Vision = () => {
         }).finally(() => {
             remove(likedByNode)
         })
-    
-    }
 
-    useEffect(() => {
-        const database = getDatabase(app)
+    }
+    const database = getDatabase(app)
+    const getTopicData = async (topicId: any) => {
+        const topicNode = ref(database, `frame-the-vision/topics/${topicId}`)
+        get(topicNode).then((snap) => {
+            const data = snap.val()
+            setTitle(data)
+        })
+    }
+    const getTopic = async () => {
         const postNode = ref(database, `frame-the-vision/posts/${id}`)
         get(postNode).then((snap) => {
             const data = snap.val()
-            const title = data.name
+            const topicId = data.topicId
+            getTopicData(topicId)
             const description = data.Description
             const image = data.imageUrl
             const date = data.postedOn
@@ -102,6 +109,9 @@ const Vision = () => {
             setAuthor(author)
             setLoading(false)
         })
+    }
+    useEffect(() => {
+        getTopic()
     }, [id])
 
     useEffect(() => {
@@ -180,12 +190,12 @@ const Vision = () => {
                             liked ? (
                                 <div className='flex flex-col w-full items-start gap-y-2'>
                                     <Chip size='md' color='success' variant='flat'>
-                                    ❤️ Liked by you and {counter - 1} others
-                                </Chip>
+                                        ❤️ Liked by you and {counter - 1} others
+                                    </Chip>
 
-                                <Chip color='danger' variant='flat' onClick={() => dislike()}>
-                                    Remove Like
-                                </Chip>
+                                    <Chip color='danger' variant='flat' onClick={() => dislike()}>
+                                        Remove Like
+                                    </Chip>
                                 </div>
                             )
                                 :
