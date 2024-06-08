@@ -110,82 +110,97 @@ const Admins = () => {
                             <TableCell>{name}</TableCell>
                             <TableCell>
                                 <div className='flex flex-col items-center justify-center'>
-                                    {
-                                        userIsAdmin ?
-                                            (<Button
-                                                className='mt-1 mb-1'
-                                                color='danger'
-                                                variant='flat'
-                                                onClick={() => demoteUser(eachUser)}
-                                            >
-                                                <ShieldBan /> Demote from admin
-                                            </Button>)
-                                            :
-                                            <Button
-                                                isIconOnly
-                                                color='secondary'
-                                                variant='flat'
-                                                onClick={() => promoteUser(eachUser)}
-                                            >
-                                                <ShieldPlus />
-                                            </Button>
-                                    }
+
 
                                     {
-                                        userIsJudge ?
-                                            (<Button
-                                                className='mt-1 mb-1'
-                                                color='danger'
-                                                variant='flat'
-                                                isDisabled
-                                            >
-                                                <ShieldBan /> Cannot be demoted (judge)
-                                            </Button>)
-                                            :
-                                            (
-                                                <div className='flex flex-col items-center justify-center'>
-                                                    <Button
-                                                        className='mt-1 mb-1'
-                                                        color='secondary'
-                                                        variant='flat'
-                                                        onClick={() => promotePhotographyJudge(eachUser)}
-                                                    >
-                                                        Photography Judge
-                                                    </Button>
-                                                    <Button
-                                                        className='mt-1 mb-1'
-                                                        color='secondary'
-                                                        variant='flat'
-                                                        onClick={() => promoteContentJudge(eachUser)}
-                                                    >
-                                                        Content Judge
-                                                    </Button>
-                                                </div>
-                                            )
+                                        eachUser !== 'n2Aa3RbQawRBWc0U1DJPvKjJC893' && (
 
-                                    }
 
-                                    {
-                                        userIsSuperUser ?
-                                            (<Button
-                                                className='mt-1 mb-1'
-                                                color='danger'
-                                                variant='flat'
-                                                isDisabled
-                                            >
-                                                <ShieldBan /> Demote from Super User
-                                            </Button>)
-                                            :
-                                            (
+                                            userIsAdmin ?
+                                                (<Button
+                                                    className='mt-1 mb-1'
+                                                    color='danger'
+                                                    variant='flat'
+                                                    onClick={() => demoteUser(eachUser)}
+                                                >
+                                                    <ShieldBan /> Demote from admin
+                                                </Button>)
+                                                :
                                                 <Button
+                                                    isIconOnly
                                                     color='secondary'
                                                     variant='flat'
-                                                    onClick={() => promoteToSuperUser(eachUser)}
+                                                    onClick={() => promoteUser(eachUser)}
                                                 >
-                                                    Promote to Super User
+                                                    <ShieldPlus />
                                                 </Button>
-                                            )
+                                        )
+                                    }
 
+
+                                    {
+                                        eachUser !== 'n2Aa3RbQawRBWc0U1DJPvKjJC893' && (
+
+
+                                            userIsJudge ?
+                                                (<Button
+                                                    className='mt-1 mb-1'
+                                                    color='danger'
+                                                    variant='flat'
+                                                    isDisabled
+                                                >
+                                                    <ShieldBan /> Cannot be demoted (judge)
+                                                </Button>)
+                                                :
+                                                (
+                                                    <div className='flex flex-col items-center justify-center'>
+                                                        <Button
+                                                            className='mt-1 mb-1'
+                                                            color='secondary'
+                                                            variant='flat'
+                                                            onClick={() => promotePhotographyJudge(eachUser)}
+                                                        >
+                                                            Photography Judge
+                                                        </Button>
+                                                        <Button
+                                                            className='mt-1 mb-1'
+                                                            color='secondary'
+                                                            variant='flat'
+                                                            onClick={() => promoteContentJudge(eachUser)}
+                                                        >
+                                                            Content Judge
+                                                        </Button>
+                                                    </div>
+                                                )
+                                        )
+                                    }
+
+                                    {
+                                        eachUser !== 'n2Aa3RbQawRBWc0U1DJPvKjJC893' && (
+
+
+
+                                            userIsSuperUser ?
+                                                (<Button
+                                                    className='mt-1 mb-1'
+                                                    color='danger'
+                                                    variant='flat'
+                                                    isDisabled
+                                                >
+                                                    <ShieldBan /> Demote from Super User
+                                                </Button>)
+                                                :
+                                                (
+                                                    <Button
+                                                        color='secondary'
+                                                        variant='flat'
+                                                        onClick={() => promoteToSuperUser(eachUser)}
+                                                    >
+                                                        Promote to Super User
+                                                    </Button>
+                                                )
+
+                                        )
                                     }
                                 </div>
                             </TableCell>
