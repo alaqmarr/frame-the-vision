@@ -94,7 +94,12 @@ export default function Home() {
                     const post = allPosts[postId];
                     const { name: title, Description: description, imageUrl: image, postedOn: date, author } = post;
                     const likedCounterNode = ref(database, `frame-the-vision/posts/${postId}/likedCounter`);
-
+                    const savedTopicId = ref(database, `frame-the-vision/posts/${postId}/topicId`);
+                    const savedTopicIdSnap = await get(savedTopicId);
+                    const savedTopicIdData = savedTopicIdSnap.val();
+                    const topicIdNode = ref(database, `frame-the-vision/topics/${savedTopicIdData}`);
+                    const topicIdSnap = await get(topicIdNode);
+                    const topicId = topicIdSnap.val();
                     posts.push(
                         <Card className="py-4 w-[400px]" isHoverable key={postId} id={postId}>
                             <Link href={`/vision/${postId}`} target="_blank">
@@ -108,7 +113,7 @@ export default function Home() {
                                     />
                                 </CardHeader>
                                 <CardBody className="pb-0 pt-2 px-4 flex-col items-start">
-                                    <h4 className="font-bold text-large uppercase mb-3">{title}
+                                    <h4 className="font-bold text-large uppercase mb-3">{topicId}
                                         <br /> <small className="text-default-400 text-xs">
                                             By <strong>{author}</strong>
                                         </small></h4>
@@ -128,6 +133,8 @@ export default function Home() {
                             </Link>
                         </Card>
                     );
+
+                    
                 }
 
                 posts.reverse();

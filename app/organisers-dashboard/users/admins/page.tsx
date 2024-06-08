@@ -9,7 +9,7 @@ import { Divider } from '@nextui-org/divider'
 import { Spinner } from '@nextui-org/spinner'
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/table'
 import { get, getDatabase, ref, remove, set } from 'firebase/database'
-import { ArrowBigLeftDash, CheckCheckIcon, InstagramIcon, ShieldCheck, ShieldClose, ShieldPlus } from 'lucide-react'
+import { ArrowBigLeftDash, CheckCheckIcon, InstagramIcon, ShieldBan, ShieldCheck, ShieldClose, ShieldPlus } from 'lucide-react'
 import Link from 'next/link'
 import React, { ReactElement, useEffect, useState } from 'react'
 
@@ -72,6 +72,20 @@ const Admins = () => {
         })
     }
 
+    function promoteToSuperUser(userId: string) {
+        const getPassword = prompt('Enter the super user password')
+        if (getPassword === 'asdf_1234') {
+            const adminNode = ref(db, `frame-the-vision/users/${userId}/isSuperUser`)
+            set(adminNode, true).then(() => {
+                setUsers([])
+            }).finally(() => {
+                getUsers()
+            })
+        } else {
+            alert('Incorrect password, try again')
+        }
+    }
+
     async function getUsers() {
         setUsers([])
         const usersNode = ref(db, `frame-the-vision/users`)
@@ -87,6 +101,7 @@ const Admins = () => {
                 const city = data[eachUser].muminCity
                 const userIsAdmin = data[eachUser].isAdmin || false
                 const userIsJudge = data[eachUser].isJudge || false
+                const userIsSuperUser = data[eachUser].isSuperUser || false
 
                 if (userIsAdmin) {
                     count++
@@ -97,14 +112,14 @@ const Admins = () => {
                                 <div className='flex flex-col items-center justify-center'>
                                     {
                                         userIsAdmin ?
-                                            <Button
-                                                isIconOnly
+                                            (<Button
+                                                className='mt-1 mb-1'
                                                 color='danger'
                                                 variant='flat'
                                                 onClick={() => demoteUser(eachUser)}
                                             >
-                                                <ShieldClose />
-                                            </Button>
+                                                <ShieldBan /> Demote from admin
+                                            </Button>)
                                             :
                                             <Button
                                                 isIconOnly
@@ -119,17 +134,18 @@ const Admins = () => {
                                     {
                                         userIsJudge ?
                                             (<Button
-                                                isIconOnly
-                                                color='success'
+                                                className='mt-1 mb-1'
+                                                color='danger'
                                                 variant='flat'
+                                                isDisabled
                                             >
-                                                <CheckCheckIcon />
+                                                <ShieldBan /> Cannot be demoted (judge)
                                             </Button>)
                                             :
                                             (
                                                 <div className='flex flex-col items-center justify-center'>
                                                     <Button
-                                                        className='mt-2 mb-2'
+                                                        className='mt-1 mb-1'
                                                         color='secondary'
                                                         variant='flat'
                                                         onClick={() => promotePhotographyJudge(eachUser)}
@@ -137,7 +153,7 @@ const Admins = () => {
                                                         Photography Judge
                                                     </Button>
                                                     <Button
-                                                        className='mt-2 mb-2'
+                                                        className='mt-1 mb-1'
                                                         color='secondary'
                                                         variant='flat'
                                                         onClick={() => promoteContentJudge(eachUser)}
@@ -145,6 +161,29 @@ const Admins = () => {
                                                         Content Judge
                                                     </Button>
                                                 </div>
+                                            )
+
+                                    }
+
+                                    {
+                                        userIsSuperUser ?
+                                            (<Button
+                                                className='mt-1 mb-1'
+                                                color='danger'
+                                                variant='flat'
+                                                isDisabled
+                                            >
+                                                <ShieldBan /> Demote from Super User
+                                            </Button>)
+                                            :
+                                            (
+                                                <Button
+                                                    color='secondary'
+                                                    variant='flat'
+                                                    onClick={() => promoteToSuperUser(eachUser)}
+                                                >
+                                                    Promote to Super User
+                                                </Button>
                                             )
 
                                     }

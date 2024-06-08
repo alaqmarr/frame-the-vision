@@ -20,6 +20,8 @@ const Dashboard = () => {
     const db = getDatabase(app)
     const user = useUser()
     const [analyticsCard, setAnalyticsCard] = useState<ReactElement<any>[]>([])
+    const [isSuperUser, setIsSuperUser] = useState(false)
+    const [userJudge, setUserJudge] = useState(false)
 
     useEffect(() => {
         if (user) {
@@ -70,9 +72,23 @@ const Dashboard = () => {
     useEffect(() => {
         if (loggedIn) {
             const adminCheckNode = ref(db, `frame-the-vision/admins/${userId}`)
+            const superUserCheckNode = ref(db, `frame-the-vision/users/${userId}/isSuperUser`)
+            const checkJudegNode = ref(db, `frame-the-vision/users/${userId}/isJudge`)
             get(adminCheckNode).then((flick) => {
                 if (flick.exists()) {
                     setIsAdmin(true)
+                    get(superUserCheckNode).then((snap) => {
+                        if (snap.exists()) {
+                            setIsSuperUser(true)
+                        }
+                    }).finally(() => {
+                        get(checkJudegNode).then((snap) => {
+                            if (snap.exists()) {
+                                setUserJudge(true)
+                            }
+                        }
+                        )
+                    })
                 }
             }).finally(() => {
                 setTimeout(() => {
@@ -129,19 +145,6 @@ const Dashboard = () => {
                     </CardFooter>
                 </Card>
 
-                <Card className='w-[300px] flex flex-col items-center justify-center text-center'>
-                    <CardBody className='w-full text-center items-center justify-center'>
-                        <h1>Tabular list of all admins.</h1>
-                    </CardBody>
-                    <CardFooter className='flex flex-col items-center justify-center'>
-                        <Link href='/organisers-dashboard/users/admins'>
-                            <Button color='primary' variant='flat'>
-                                View All Admins
-                            </Button>
-                        </Link>
-                    </CardFooter>
-                </Card>
-
 
                 <Card className='w-[300px] flex flex-col items-center justify-center text-center'>
                     <CardBody className='w-full text-center items-center justify-center'>
@@ -155,6 +158,55 @@ const Dashboard = () => {
                         </Link>
                     </CardFooter>
                 </Card>
+
+                {
+                    userJudge && (
+                        <Card className='w-[300px] flex flex-col items-center justify-center text-center'>
+                            <CardBody className='w-full text-center items-center justify-center'>
+                                <h1>Review posts</h1>
+                            </CardBody>
+                            <CardFooter className='flex flex-col items-center justify-center'>
+                                <Link href='/judge-post' target='_blank'>
+                                    <Button color='secondary' variant='flat'>
+                                        Review a post to remove/archive
+                                    </Button>
+                                </Link>
+                            </CardFooter>
+                        </Card>
+                    )
+                }
+
+                {
+                    isSuperUser && (
+                        <>
+                            <Card className='w-[300px] flex flex-col items-center justify-center text-center'>
+                                <CardBody className='w-full text-center items-center justify-center'>
+                                    <h1>View points</h1>
+                                </CardBody>
+                                <CardFooter className='flex flex-col items-center justify-center'>
+                                    <Link href='/organisers-dashboard/judged-posts'>
+                                        <Button color='warning' variant='flat'>
+                                            View Points alloted to posts
+                                        </Button>
+                                    </Link>
+                                </CardFooter>
+                            </Card>
+
+                            <Card className='w-[300px] flex flex-col items-center justify-center text-center'>
+                                <CardBody className='w-full text-center items-center justify-center'>
+                                    <h1>Tabular list of all admins.</h1>
+                                </CardBody>
+                                <CardFooter className='flex flex-col items-center justify-center'>
+                                    <Link href='/organisers-dashboard/users/admins'>
+                                        <Button color='warning' variant='flat'>
+                                            View All Admins
+                                        </Button>
+                                    </Link>
+                                </CardFooter>
+                            </Card>
+                        </>
+                    )
+                }
             </div>
         </>
     )
